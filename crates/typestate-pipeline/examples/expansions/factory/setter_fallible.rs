@@ -15,7 +15,7 @@
 //!         { /* body: stores `require_nonempty(val)?` */ }
 //!     }
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::TypestateFactory;
 

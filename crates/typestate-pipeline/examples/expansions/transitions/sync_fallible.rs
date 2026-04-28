@@ -21,7 +21,7 @@
 //!         //                       ^^^ Result is folded into the pending future
 //!     }
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, pipelined, transitions};
 

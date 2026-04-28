@@ -39,7 +39,7 @@
 //!         pub fn sku(&self) -> &String;
 //!     }
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, TypestateFactory, pipelined};
 

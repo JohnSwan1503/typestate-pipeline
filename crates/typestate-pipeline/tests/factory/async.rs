@@ -5,7 +5,7 @@
 //! is the most flexible way to fold finalization into a Pipeline chain when
 //! the work depends on additional context or other inputs.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{
     pipelined, transitions, Pipeline, Resolved, TypestateFactory,

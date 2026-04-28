@@ -25,7 +25,7 @@
 //!         //                                  ^^^^^^^^   also a breakpoint
 //!     }
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, pipelined, transitions};
 

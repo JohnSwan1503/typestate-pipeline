@@ -1,6 +1,6 @@
 //! Contract for `examples/factory_pipeline_arm.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{InFlight, No, Resolved, TypestateFactory, Yes, pipelined};
 

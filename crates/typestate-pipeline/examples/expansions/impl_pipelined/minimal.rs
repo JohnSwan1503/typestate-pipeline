@@ -11,7 +11,7 @@
 //!
 //! Same as `../pipelined/minimal.rs` minus the struct declaration.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Mode, Pipeline, Resolved, impl_pipelined};
 

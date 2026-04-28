@@ -8,7 +8,7 @@
 //! from configuration. For the alternative — emit setters directly on
 //! the carrier — see `../factory/pipeline_arm.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, TypestateFactory, pipelined, transitions};
 
@@ -65,7 +65,10 @@ fn main() {
 
     // Build the bag wholly outside the carrier. The derive emits
     // `SettingsFactory` — finalize hands back a real `Settings`.
-    let settings = SettingsFactory::new().parallelism(8).with_verify(true).finalize();
+    let settings = SettingsFactory::new()
+        .parallelism(8)
+        .with_verify(true)
+        .finalize();
 
     // Walk into the carrier with the assembled phase state.
     let carrier: Author<Configured, Resolved> =

@@ -18,7 +18,7 @@
 //!         //   pub async fn finalize_async(self) -> ConfirmedUser;
 //!     }
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::TypestateFactory;
 

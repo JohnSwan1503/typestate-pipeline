@@ -5,7 +5,7 @@
 //! End-to-end exercise of the trait against `#[transitions]` (with `error`
 //! omitted) lives in `transitions_via_pipelined.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{
     impl_pipelined, BoxFuture, InFlight, Mode, Pipeline, Pipelined, Resolved,

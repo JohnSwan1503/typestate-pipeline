@@ -5,7 +5,7 @@
 //! Reading `bag.namespace()` (no args) would compile and return `&String`;
 //! that path is exercised positively in `tests/factory/internal_field.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, TypestateFactory, pipelined};
 

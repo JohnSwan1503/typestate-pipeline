@@ -1,6 +1,6 @@
 //! Contract for `examples/transitions_sync_infallible.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{InFlight, Resolved, pipelined, transitions};
 

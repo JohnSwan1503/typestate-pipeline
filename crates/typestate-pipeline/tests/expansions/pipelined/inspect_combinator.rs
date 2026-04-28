@@ -1,6 +1,6 @@
 //! Contract for `examples/inspect_combinator.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{InFlight, Resolved, pipelined};
 

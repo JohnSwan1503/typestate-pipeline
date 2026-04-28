@@ -26,7 +26,7 @@
 //!         where F: FnOnce(&Author<'a, S, Resolved>) + Send + 'a;
 //!     }
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, pipelined};
 

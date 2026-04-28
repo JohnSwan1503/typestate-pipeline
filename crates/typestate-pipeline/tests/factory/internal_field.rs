@@ -14,7 +14,7 @@
 //! Negative checks (no setter, no overrider, no remover, no pipeline arm
 //! for the internal field) live in the UI test suite.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{No, Pipeline, Resolved, TypestateFactory, pipelined};
 

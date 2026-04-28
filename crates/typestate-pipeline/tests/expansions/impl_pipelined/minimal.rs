@@ -1,6 +1,6 @@
 //! Contract for `examples/impl_pipelined_macro.rs`.
 
-use std::fmt;
+use core::fmt;
 use std::future::IntoFuture;
 
 use typestate_pipeline::{

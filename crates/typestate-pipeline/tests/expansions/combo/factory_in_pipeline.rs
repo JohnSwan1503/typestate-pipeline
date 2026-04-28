@@ -6,7 +6,7 @@
 //! surfaces themselves are already locked in by the single-feature
 //! contracts; here we only need the cohabitation to compile.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{No, Resolved, TypestateFactory, Yes, pipelined, transitions};
 

@@ -1,6 +1,6 @@
 //! Contract for `examples/transitions_async_deferred.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{InFlight, Resolved, pipelined, transitions};
 

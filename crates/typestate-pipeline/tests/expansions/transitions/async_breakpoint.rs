@@ -1,6 +1,6 @@
 //! Contract for `examples/transitions_async_breakpoint.rs`.
 
-use std::fmt;
+use core::fmt;
 use std::future::Future;
 
 use typestate_pipeline::{InFlight, Resolved, pipelined, transitions};

@@ -1,6 +1,6 @@
 //! Contract for `examples/pipelined_with_tag.rs`.
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::{Pipelined, Resolved, pipelined};
 

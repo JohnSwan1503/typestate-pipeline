@@ -18,7 +18,7 @@
 //!             -> Result<UserFactory<F1, Yes>, BadInput>;
 //!     }
 
-use std::fmt;
+use core::fmt;
 
 use typestate_pipeline::TypestateFactory;
 
