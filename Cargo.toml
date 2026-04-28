@@ -14,6 +14,9 @@ license = "MIT OR Apache-2.0"
 description = "Easy, safe typestate pipelines and builders for Rust."
 authors = ["John Swanson <john.thomas.swanson@gmail.com>"]
 repository = "https://github.com/JohnSwan1503/typestate-pipeline"
+readme = "README.md"
+keywords = ["typestate", "pipeline", "builder", "derive macro", "proc macro"]
+categories = ["rust-patterns"]
 
 [workspace.dependencies]
 syn = { version = "2", features = ["full"] }
