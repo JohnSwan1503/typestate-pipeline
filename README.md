@@ -2,7 +2,69 @@
 
 Compile-time-checked typestate scaffolding for Rust: a dual-mode pipeline
 carrier and a named-field accumulator derive that compose for both
-cross-phase state machines and within-phase argument bags.
+cross-phase state machines and within-phase argument accumulators.
+
+```rust
+use typestate_pipeline::{pipelined, transitions, Pipeline, TypestateFactory};
+
+// (1) Argument-bag derive — `ProfileFactory<F1, F2, F3>` with one flag
+//     generic per field. Setters flip `No → Yes`; `finalize()` only
+//     resolves when every required flag is `Yes`.
+#[derive(TypestateFactory)]
+struct Profile {
+    #[field(required)]      name: String,
+    #[field(required)]      email: String,
+    #[field(default = 18)]  age: u32,
+}
+
+#[derive(Debug)]
+struct AuthError(&'static str);
+impl std::fmt::Display for AuthError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result { f.write_str(self.0) }
+}
+impl std::error::Error for AuthError {}
+
+// (2) Carrier shorthand — declares `Author<'a, S, M = Resolved>`, its
+//     `Pipelined<'a>` impl, and `IntoFuture` forwarding for `InFlight`.
+pipelined!(Author, ctx = (), error = AuthError);
+
+struct Registered { profile: Profile }
+struct Deployed   { profile: Profile, account_id: u64 }
+
+// (3) Resolved + InFlight method pairs from one body. `async fn` without
+//     `deferred = false` is *deferred async* — chains fold into a single
+//     terminal `.await?`.
+#[transitions]
+impl<'a> Author<'a, Registered> {
+    #[transition(into = Deployed)]
+    pub async fn deploy(state: Registered) -> Result<Deployed, AuthError> {
+        Ok(Deployed { profile: state.profile, account_id: 42 })
+    }
+}
+
+#[tokio::main(flavor = "current_thread")]
+async fn main() -> Result<(), AuthError> {
+    let profile = ProfileFactory::new()
+        .name("Alice".into())
+        .email("alice@example.com".into())
+        // .with_age(30)   // optional — would override the default of 18
+        .finalize();
+
+    let deployed = Author(Pipeline::resolved(&(), Registered { profile }))
+        .deploy()
+        .await?;
+
+    let state = deployed.0.into_state();
+    println!("{} got account #{}", state.profile.name, state.account_id);
+    Ok(())
+}
+```
+
+Try removing `.email(...)` from the chain — the compiler refuses
+`.finalize()` because the bag's flag tuple no longer matches the
+finalize-callable shape. The same kind of compile-time check guards
+phase transitions: `.deploy()` on a carrier whose state isn't
+`Registered` simply doesn't typecheck.
 
 `typestate-pipeline` ships three macros and a runtime carrier:
 
@@ -18,6 +80,26 @@ The macros are independent (either is useful on its own) but compose: a
 factory can run *inside* a pipeline phase, and the
 `#[factory(pipeline(carrier = …))]` arm even emits its setters directly on
 the user's carrier.
+
+- [typestate-pipeline](#typestate-pipeline)
+  - [Workspace layout](#workspace-layout)
+  - [Mental model](#mental-model)
+    - [Factory/Builder mode — `#[derive(TypestateFactory)]`](#factorybuilder-mode--derivetypestatefactory)
+    - [Carrier mode — `#[transitions]`, `pipelined!`, `impl_pipelined!`](#carrier-mode--transitions-pipelined-impl_pipelined)
+    - [Chain folding](#chain-folding)
+  - [`#[derive(TypestateFactory)]`](#derivetypestatefactory)
+  - [`#[transitions]`](#transitions)
+  - [`pipelined!` / `impl_pipelined!`](#pipelined--impl_pipelined)
+  - [Safety](#safety)
+    - [How we test these properties](#how-we-test-these-properties)
+    - [The `no_unsafe` opt-out](#the-no_unsafe-opt-out)
+  - [Testing](#testing)
+    - [`factory` — `#[derive(TypestateFactory)]` feature coverage](#factory--derivetypestatefactory-feature-coverage)
+    - [`transitions` — `#[transitions]` body shapes and `Pipelined` resolution](#transitions--transitions-body-shapes-and-pipelined-resolution)
+    - [`integration` — cross-feature scenarios (factory + pipeline + transitions)](#integration--cross-feature-scenarios-factory--pipeline--transitions)
+    - [`pipeline` — dual-mode `Pipeline` carrier and `inspect` combinator](#pipeline--dual-mode-pipeline-carrier-and-inspect-combinator)
+    - [`ui` — trybuild compile-fail diagnostics](#ui--trybuild-compile-fail-diagnostics)
+  - [License](#license)
 
 ## Workspace layout
 
@@ -36,9 +118,9 @@ crate; depending on the macros crate alone produces unresolved paths.
 Two orthogonal axes. Each macro operates on one of them, and they
 compose freely.
 
-### Per-field flag — `#[derive(TypestateFactory)]`
+### Factory/Builder mode — `#[derive(TypestateFactory)]`
 
-Every non-internal field on a derived bag carries a flag generic that is
+Every non-`internal` field on a derived bag carries a flag generic that is
 either `No` (unset) or `Yes` (set). Setters flip `No → Yes`; `finalize()`
 resolves only when every required flag is `Yes`. The full transition
 graph, covering every `#[field(…)]` mutability attribute:
