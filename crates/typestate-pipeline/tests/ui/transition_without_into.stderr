@@ -1,0 +1,5 @@
+error: `into = <Type>` is required in `#[transition(...)]`
+  --> tests/ui/transition_without_into.rs:11:18
+   |
+11 |     #[transition()]
+   |                  ^

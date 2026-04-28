@@ -1,0 +1,5 @@
+error: `default_helper = <ident>` is only valid alongside `default = …`
+ --> tests/ui/default_helper_without_default.rs:9:5
+  |
+9 |     #[field(required, default_helper = my_helper)]
+  |     ^

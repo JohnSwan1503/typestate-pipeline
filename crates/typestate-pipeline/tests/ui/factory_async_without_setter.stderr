@@ -1,0 +1,5 @@
+error: `async_fn` is only valid alongside `setter = <fn>`
+ --> tests/ui/factory_async_without_setter.rs:5:5
+  |
+5 |     #[field(required, async_fn)]
+  |     ^

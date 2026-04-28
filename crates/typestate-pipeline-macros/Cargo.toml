@@ -1,0 +1,31 @@
+[package]
+name = "typestate-pipeline-macros"
+description = "Proc-macros for the typestate-pipeline ecosystem."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[lib]
+proc-macro = true
+
+[lints]
+workspace = true
+
+[features]
+# Allows derives in downstream crates to opt into the safe-mode codegen path
+# via `#[factory(no_unsafe)]`. With the feature off, the attribute is rejected
+# at expansion time so opting in without enabling the feature surfaces a clear
+# error rather than mysteriously generating the unsafe path. The feature itself
+# does not change codegen — every safe-mode derive must still opt in
+# explicitly with the attribute.
+no_unsafe = []
+
+[dependencies]
+syn = { workspace = true }
+quote = { workspace = true }
+proc-macro2 = { workspace = true }
+convert_case = "0.11.0"
+proc-macro-crate = "3"

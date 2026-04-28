@@ -1,0 +1,16 @@
+error[E0061]: this method takes 0 arguments but 1 argument was supplied
+  --> tests/ui/internal_field_no_pipeline_arm.rs:45:17
+   |
+45 |     let _ = bag.namespace("override".to_owned());
+   |                 ^^^^^^^^^ --------------------- unexpected argument of type `String`
+   |
+note: method defined here
+  --> tests/ui/internal_field_no_pipeline_arm.rs:30:5
+   |
+30 |     namespace: String,
+   |     ^^^^^^^^^
+help: remove the extra argument
+   |
+45 -     let _ = bag.namespace("override".to_owned());
+45 +     let _ = bag.namespace();
+   |

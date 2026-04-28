@@ -1,0 +1,5 @@
+error: `deferred` is only valid on `async fn` transitions
+  --> tests/ui/transitions_deferred_on_sync.rs:12:28
+   |
+12 |     #[transition(into = B, deferred = true)]
+   |                            ^^^^^^^^

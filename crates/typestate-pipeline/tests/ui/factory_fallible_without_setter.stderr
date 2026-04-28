@@ -1,0 +1,5 @@
+error: `fallible` is only valid alongside `setter = <fn>`
+  --> tests/ui/factory_fallible_without_setter.rs:15:5
+   |
+15 |     #[field(required, fallible)]
+   |     ^

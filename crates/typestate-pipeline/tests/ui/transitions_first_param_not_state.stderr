@@ -1,0 +1,5 @@
+error: transition method's first parameter must be named `state`
+  --> tests/ui/transitions_first_param_not_state.rs:13:13
+   |
+13 |     fn noop(thing: A) -> B {
+   |             ^^^^^

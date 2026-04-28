@@ -1,0 +1,5 @@
+error: `default` is incompatible with `async_fn` — declared defaults must be synchronous. Call the setter directly with your value if it needs async work.
+ --> tests/ui/default_with_async.rs:5:5
+  |
+5 |     #[field(default = 0u32, setter = parse, async_fn)]
+  |     ^

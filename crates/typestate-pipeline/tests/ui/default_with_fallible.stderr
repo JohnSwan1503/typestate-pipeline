@@ -1,0 +1,5 @@
+error: `default` is incompatible with `fallible` — declared defaults must be infallible. Call the setter directly with your value if it needs validation.
+  --> tests/ui/default_with_fallible.rs:15:5
+   |
+15 |     #[field(default = String::new(), setter = trim, fallible)]
+   |     ^

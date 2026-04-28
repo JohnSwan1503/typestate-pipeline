@@ -1,0 +1,55 @@
+[package]
+name = "typestate-pipeline"
+description = "Easy, safe typestate pipelines and builders for Rust."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+readme.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+typestate-pipeline-core = { workspace = true }
+typestate-pipeline-macros = { workspace = true }
+
+# Optional dependencies for the `dataset_authoring` example. Gated behind the
+# `dataset-authoring-example` feature so plain `cargo test` / `cargo build`
+# does not pull them into the dependency graph.
+serde = { version = "1", features = ["derive"], optional = true }
+serde_json = { version = "1", features = ["raw_value"], optional = true }
+thiserror = { version = "1", optional = true }
+
+[dev-dependencies]
+tokio = { workspace = true }
+trybuild = { workspace = true }
+
+[features]
+# No features enabled by default.
+default = []
+# Enables the safe-mode codegen opt-in for `#[derive(TypestateFactory)]`.
+# With this feature on, individual derives may add `#[factory(no_unsafe)]` to
+# emit a `MaybeUninit`/`unsafe`-free implementation that uses the
+# `Storage<T>` associated-type trick to give each flag combination a
+# structurally distinct sister-struct shape. Without the feature, the
+# attribute is rejected at expansion time. See the `Storage` trait for
+# runtime details.
+no_unsafe = ["typestate-pipeline-macros/no_unsafe"]
+# Enables compilation of `examples/dataset_authoring.rs`, which models the
+# full dataset-authoring pipeline from the upstream `amp` admin client. The
+# example pulls in `serde`, `serde_json`, and `thiserror`; this feature gates
+# them so they do not leak into normal builds or test runs.
+dataset-authoring-example = ["dep:serde", "dep:serde_json", "dep:thiserror"]
+
+[[example]]
+name = "dataset_authoring"
+required-features = ["dataset-authoring-example"]
+
+# Files under `examples/expansions/<category>/<feature>.rs` are not declared
+# as `[[example]]` targets — they're source-browsable demos of the macros'
+# generated surface, paired with compile-time contracts in
+# `tests/expansions/<category>/<feature>.rs` that lock in the same surface.
+# A future build.rs may emit `[[example]]` entries for them automatically.

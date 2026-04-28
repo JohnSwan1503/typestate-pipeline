@@ -1,0 +1,5 @@
+error: `internal` is incompatible with `setter = …` — internal fields have no setter (they're set positionally on `new(…)` instead).
+  --> tests/ui/internal_with_setter.rs:10:5
+   |
+10 |     #[field(internal, setter = trim)]
+   |     ^

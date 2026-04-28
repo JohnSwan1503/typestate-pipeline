@@ -1,0 +1,33 @@
+[workspace]
+members = [
+    "crates/typestate-pipeline-core",
+    "crates/typestate-pipeline-macros",
+    "crates/typestate-pipeline",
+]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT OR Apache-2.0"
+description = "Easy, safe typestate pipelines and builders for Rust."
+authors = ["John Swanson <john.thomas.swanson@gmail.com>"]
+repository = "https://github.com/JohnSwan1503/typestate-pipeline"
+
+[workspace.dependencies]
+syn = { version = "2", features = ["full"] }
+quote = "1"
+proc-macro2 = "1"
+
+typestate-pipeline-core = { path = "crates/typestate-pipeline-core", version = "=0.1.0" }
+typestate-pipeline-macros = { path = "crates/typestate-pipeline-macros", version = "=0.1.0" }
+
+# Dev deps shared across crates. Sub-crates pull them in via
+# `tokio = { workspace = true }` / `trybuild = { workspace = true }` under
+# their own `[dev-dependencies]` table.
+tokio = { version = "1", features = ["macros", "rt"] }
+trybuild = "1.0"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }

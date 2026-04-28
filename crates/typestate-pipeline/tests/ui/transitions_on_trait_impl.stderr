@@ -1,0 +1,5 @@
+error: #[transitions] can only be applied to inherent impl blocks
+  --> tests/ui/transitions_on_trait_impl.rs:14:1
+   |
+14 | impl<'a> Noop for Author<'a, A> {
+   | ^^^^

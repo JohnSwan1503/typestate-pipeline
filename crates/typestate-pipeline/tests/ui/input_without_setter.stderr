@@ -1,0 +1,5 @@
+error: `input = <Type>` is only valid alongside `setter = <fn>` — the transformer is what converts the input type to the field's storage type.
+ --> tests/ui/input_without_setter.rs:9:5
+  |
+9 |     #[field(required, input = String)]
+  |     ^
