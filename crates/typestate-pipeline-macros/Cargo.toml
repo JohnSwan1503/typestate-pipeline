@@ -9,6 +9,10 @@ authors.workspace = true
 repository.workspace = true
 readme = "README.md"
 
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
 [lib]
 proc-macro = true
 
@@ -30,3 +34,9 @@ quote = { workspace = true }
 proc-macro2 = { workspace = true }
 convert_case = "0.11.0"
 proc-macro-crate = "3"
+# Default features include `colors`, which embeds ANSI escapes into the
+# `compile_error!` payload on stable. trybuild's `.stderr` baselines capture
+# stderr literally (cargo's renderer is not in the loop on the proc-macro
+# side), so colors poison committed snapshots. We opt out: structure stays,
+# colors come from rustc's own renderer when it paints the primary error.
+proc-macro2-diagnostics = { version = "0.10", default-features = false }

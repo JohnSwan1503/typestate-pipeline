@@ -1,6 +1,9 @@
 use proc_macro2::TokenStream as TokenStream2;
+use proc_macro2_diagnostics::SpanDiagnosticExt;
 use quote::{format_ident, quote};
-use syn::{spanned::Spanned, FnArg, Ident, Pat, PatIdent, Signature};
+use syn::{FnArg, Ident, Pat, PatIdent, Signature, spanned::Spanned};
+
+use crate::diag::{MacroError, MacroResult};
 
 pub(super) struct ParsedSig {
     pub has_ctx: bool,
@@ -14,20 +17,25 @@ pub(super) struct TypedParam {
 }
 
 impl ParsedSig {
-    pub(super) fn parse(sig: &Signature, ctx_name: &Ident) -> syn::Result<Self> {
+    pub(super) fn parse(sig: &Signature, ctx_name: &Ident) -> MacroResult<Self> {
         let mut iter = sig.inputs.iter().peekable();
-        let first = iter.next().ok_or_else(|| {
-            syn::Error::new(
-                sig.span(),
-                "transition method must take `state: <Type>` as its first parameter",
-            )
+        let first = iter.next().ok_or_else(|| -> MacroError {
+            sig.paren_token
+                .span
+                .join()
+                .error("transition method must take `state: <Type>` as its first parameter")
+                .help("transitions are written as if the body owned the state — add `state: <CurrentState>` as the first parameter")
+                .into()
         })?;
         let state = parse_typed(first)?;
         if state.name != "state" {
-            return Err(syn::Error::new(
-                state.name.span(),
-                "transition method's first parameter must be named `state`",
-            ));
+            let actual = state.name.to_string();
+            return Err(state
+                .name
+                .span()
+                .error("transition method's first parameter must be named `state`")
+                .help(format!("rename `{actual}` to `state` — the macro identifies the typestate-carrying parameter by name"))
+                .into());
         }
 
         let mut has_ctx = false;

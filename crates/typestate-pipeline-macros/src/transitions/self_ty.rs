@@ -1,8 +1,8 @@
 use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
 use syn::{
-    punctuated::Punctuated, GenericArgument, GenericParam, Generics, Lifetime, Path,
-    PathArguments, Type, TypePath, WhereClause,
+    GenericArgument, GenericParam, Generics, Lifetime, Path, PathArguments, Type, TypePath,
+    WhereClause, punctuated::Punctuated,
 };
 
 #[derive(Clone, Copy)]

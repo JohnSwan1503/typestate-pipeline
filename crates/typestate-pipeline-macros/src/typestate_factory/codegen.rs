@@ -1,6 +1,7 @@
 mod bag_struct;
 mod default;
 mod drop;
+mod empty_alias;
 mod finalize_async;
 mod finalize_sync;
 mod getter;
@@ -13,6 +14,7 @@ mod setter;
 pub(super) use bag_struct::gen_bag_struct;
 pub(super) use default::gen_default_helper;
 pub(super) use drop::gen_drop_impl;
+pub(super) use empty_alias::gen_empty_alias;
 pub(super) use finalize_async::gen_finalize_async;
 pub(super) use finalize_sync::gen_finalize_sync;
 pub(super) use getter::gen_getter;

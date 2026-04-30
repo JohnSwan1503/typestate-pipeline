@@ -22,6 +22,13 @@ impl<T> OnlyOneSet<T> {
         }
     }
 
+    pub fn into_inner_with_path(self) -> Option<(T, Path)> {
+        match self {
+            OnlyOneSet::Unset => None,
+            OnlyOneSet::Set { value, path } => Some((value, path)),
+        }
+    }
+
     pub fn set<U: Into<T>>(&mut self, value: U, path: &Path) -> syn::Result<()> {
         let value = value.into();
         match self {

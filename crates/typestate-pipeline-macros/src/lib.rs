@@ -19,6 +19,7 @@
 use proc_macro::TokenStream;
 use syn::{DeriveInput, ItemImpl, parse_macro_input};
 
+mod diag;
 mod prefix;
 mod transitions;
 mod typestate_factory;
@@ -58,7 +59,7 @@ mod typestate_factory;
 /// | sync infallible  | `fn` returning a non-`Result`                     | `Carrier<…, Resolved>`            | `Carrier<…, InFlight>`                             |
 /// | sync fallible    | `fn` returning `Result<_, E>`                     | `Result<Carrier<…, Resolved>, E>` | `Carrier<…, InFlight>` (Result folded into future) |
 /// | async deferred   | `async fn` (default)                              | `Carrier<…, InFlight>`            | `Carrier<…, InFlight>`                             |
-/// | async breakpoint | `async fn` with `#[transition(deferred = false)]` | `async fn` returning `Result<Carrier<…, Resolved>, E>` | same                          |
+/// | async breakpoint | `async fn` with `#[transition(breakpoint)]`       | `async fn` returning `Result<Carrier<…, Resolved>, E>` | same                          |
 ///
 /// **Deferred async** (the default) lets a chain like
 /// `pipeline.tag(7).with_parallelism(8).deploy().await?` fold every async
@@ -92,13 +93,16 @@ mod typestate_factory;
 /// `Pipeline::map_inner_sync` / `map_inner_sync_fallible`. State-machine
 /// soundness is enforced by the type system: a transition wired to the
 /// wrong destination state simply will not compile at the call site.
+#[doc(alias = "state machine")]
+#[doc(alias = "typestate")]
+#[doc(alias = "transition")]
 #[proc_macro_attribute]
 pub fn transitions(attr: TokenStream, item: TokenStream) -> TokenStream {
     let args = parse_macro_input!(attr as transitions::TransitionsArgs);
     let input = parse_macro_input!(item as ItemImpl);
     match transitions::expand(args, input) {
         Ok(ts) => ts.into(),
-        Err(err) => err.to_compile_error().into(),
+        Err(err) => err.into_compile_error().into(),
     }
 }
 
@@ -192,11 +196,14 @@ pub fn transitions(attr: TokenStream, item: TokenStream) -> TokenStream {
 /// structurally distinct type. See [`Storage`] for details.
 ///
 /// [`Storage`]: https://docs.rs/typestate-pipeline-core/latest/typestate_pipeline_core/flag/trait.Storage.html
+#[doc(alias = "builder")]
+#[doc(alias = "typestate")]
+#[doc(alias = "accumulator")]
 #[proc_macro_derive(TypestateFactory, attributes(factory, field))]
 pub fn derive_typestate_factory(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     match typestate_factory::expand(input) {
         Ok(tokens) => tokens.into(),
-        Err(err) => err.to_compile_error().into(),
+        Err(err) => err.into_compile_error().into(),
     }
 }

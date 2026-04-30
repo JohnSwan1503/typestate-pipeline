@@ -1,8 +1,16 @@
 use convert_case::{Case, Casing};
+use proc_macro2_diagnostics::SpanDiagnosticExt;
 use quote::format_ident;
-use syn::{spanned::Spanned, Field, Ident, Type, parse_quote};
+use syn::{Field, Ident, Path, Type, parse_quote, spanned::Spanned};
 
-use crate::typestate_factory::parse_util::{OnlyOneSet, parse_flag};
+use crate::{
+    diag::MacroResult,
+    typestate_factory::parse_util::{OnlyOneSet, parse_flag},
+};
+
+fn flag_value(slot: &Option<(bool, Path)>) -> bool {
+    slot.as_ref().map(|(v, _)| *v).unwrap_or(false)
+}
 
 pub struct FieldInfo {
     /// Field identifier (e.g. `name`).
@@ -41,7 +49,7 @@ pub struct FieldInfo {
 }
 
 impl FieldInfo {
-    pub fn parse(field: &Field) -> syn::Result<Self> {
+    pub fn parse(field: &Field) -> MacroResult<Self> {
         let ident = field
             .ident
             .clone()
@@ -112,120 +120,168 @@ impl FieldInfo {
         }
 
         let explicit_required = required.into_inner_optional();
-        let overridable = overridable.into_inner_optional().unwrap_or(false);
-        let removable = removable.into_inner_optional().unwrap_or(false);
-        let default_value = default_value.into_inner_optional();
+        let overridable_with_path = overridable.into_inner_with_path();
+        let overridable = flag_value(&overridable_with_path);
+        let removable_with_path = removable.into_inner_with_path();
+        let removable = flag_value(&removable_with_path);
+        let default_value_with_path = default_value.into_inner_with_path();
+        let default_value = default_value_with_path.as_ref().map(|(v, _)| v.clone());
+        let default_path = default_value_with_path.as_ref().map(|(_, p)| p);
         let explicit_name = explicit_name.into_inner_optional();
-        let explicit_default_helper = explicit_default_helper.into_inner_optional();
-        let setter_fn = setter_fn.into_inner_optional();
-        let fallible = fallible.into_inner_optional().unwrap_or(false);
-        let async_fn = async_fn.into_inner_optional().unwrap_or(false);
-        let internal = internal.into_inner_optional().unwrap_or(false);
-        let input_ty = input_ty.into_inner_optional();
+        let explicit_default_helper = explicit_default_helper.into_inner_with_path();
+        let explicit_default_helper_value =
+            explicit_default_helper.as_ref().map(|(v, _)| v.clone());
+        let setter_fn_with_path = setter_fn.into_inner_with_path();
+        let setter_fn = setter_fn_with_path.as_ref().map(|(v, _)| v.clone());
+        let setter_path = setter_fn_with_path.as_ref().map(|(_, p)| p);
+        let fallible_with_path = fallible.into_inner_with_path();
+        let fallible = flag_value(&fallible_with_path);
+        let async_fn_with_path = async_fn.into_inner_with_path();
+        let async_fn = flag_value(&async_fn_with_path);
+        let internal_with_path = internal.into_inner_with_path();
+        let internal = flag_value(&internal_with_path);
+        let internal_path = internal_with_path.as_ref().map(|(_, p)| p);
+        let input_ty_with_path = input_ty.into_inner_with_path();
+        let input_ty = input_ty_with_path.as_ref().map(|(v, _)| v.clone());
+        let input_path = input_ty_with_path.as_ref().map(|(_, p)| p);
 
-        if explicit_default_helper.is_some() && default_value.is_none() {
-            return Err(syn::Error::new(
-                field.span(),
-                "`default_helper = <ident>` is only valid alongside `default = …`",
-            ));
+        if let Some((_, helper_path)) = explicit_default_helper.as_ref()
+            && default_value.is_none()
+        {
+            return Err(helper_path
+                .span()
+                .error("`default_helper = <ident>` is only valid alongside `default = …`")
+                .help("add `default = <expr>` to declare the default this helper overrides, or remove `default_helper`")
+                .into());
         }
-        if fallible && setter_fn.is_none() {
-            return Err(syn::Error::new(
-                field.span(),
-                "`fallible` is only valid alongside `setter = <fn>`",
-            ));
+        if let Some((true, fallible_path)) = fallible_with_path.as_ref()
+            && setter_fn.is_none()
+        {
+            return Err(fallible_path
+                .span()
+                .error("`fallible` is only valid alongside `setter = <fn>`")
+                .help("`fallible` describes the setter transformer's return type — add `setter = <fn>` (the fn returning `Result<FieldType, Error>`) or remove `fallible`")
+                .into());
         }
-        if async_fn && setter_fn.is_none() {
-            return Err(syn::Error::new(
-                field.span(),
-                "`async_fn` is only valid alongside `setter = <fn>`",
-            ));
+        if let Some((true, async_path)) = async_fn_with_path.as_ref()
+            && setter_fn.is_none()
+        {
+            return Err(async_path
+                .span()
+                .error("`async_fn` is only valid alongside `setter = <fn>`")
+                .help("`async_fn` describes the setter transformer's shape — add `setter = <fn>` (the `async fn`) or remove `async_fn`")
+                .into());
         }
-        if input_ty.is_some() && setter_fn.is_none() {
-            return Err(syn::Error::new(
-                field.span(),
-                "`input = <Type>` is only valid alongside `setter = <fn>` — the transformer \
-                 is what converts the input type to the field's storage type.",
-            ));
+        if let Some(input_path) = input_path
+            && setter_fn.is_none()
+        {
+            return Err(input_path
+                .span()
+                .error("`input = <Type>` is only valid alongside `setter = <fn>`")
+                .note("the transformer is what converts the input type to the field's storage type")
+                .help("add `setter = <fn>` (the fn that bridges `input → ty`) or remove `input`")
+                .into());
         }
         // Defaults reach the setter as a plain value, so a fallible / async
         // setter can't be paired with a sync infallible default expression
         // without surprising semantics.
-        if default_value.is_some() && fallible {
-            return Err(syn::Error::new(
-                field.span(),
-                "`default` is incompatible with `fallible` — declared defaults must be \
-                 infallible. Call the setter directly with your value if it needs validation.",
-            ));
+        if let Some(default_path) = default_path
+            && fallible
+        {
+            return Err(default_path
+                .span()
+                .error("`default` is incompatible with `fallible`")
+                .note("declared defaults must be infallible — `fallible` setters return `Result`, but a default expression cannot")
+                .help("call the setter directly with your value if it needs validation, instead of declaring a default")
+                .into());
         }
-        if default_value.is_some() && async_fn {
-            return Err(syn::Error::new(
-                field.span(),
-                "`default` is incompatible with `async_fn` — declared defaults must be \
-                 synchronous. Call the setter directly with your value if it needs async work.",
-            ));
+        if let Some(default_path) = default_path
+            && let Some((true, async_path)) = async_fn_with_path.as_ref()
+        {
+            return Err(default_path
+                .span()
+                .error("`default` is incompatible with `async_fn`")
+                .span_note(async_path.span(), "`async_fn` declared here")
+                .note("declared defaults must be synchronous — `async fn` setters return a future, but a default expression is evaluated eagerly")
+                .help("call the setter directly with your value if it needs async work, instead of declaring a default")
+                .into());
         }
 
         // Internal means "set at construction, locked from then on" —
         // every mutability-implying attribute below contradicts that
         // contract; reject the combinations explicitly so misuse surfaces
         // a precise error rather than a confusing setter-shape mismatch.
-        if internal {
+        if let Some(internal_path) = internal_path {
+            let here = || -> proc_macro2::Span { internal_path.span() };
             if explicit_required == Some(false) {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `optional` — internal fields are always \
-                     set at construction time, so they can't be optional.",
-                ));
+                return Err(here()
+                    .error("`internal` is incompatible with `optional`")
+                    .note("internal fields are always set at construction time, so they can't be optional")
+                    .help("remove `internal` if the field should be optional, or remove `optional` if it must be set at construction")
+                    .into());
             }
-            if default_value.is_some() {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `default = …` — internal fields are set \
-                     at construction time, so a default has nothing to fall back to.",
-                ));
+            if let Some(default_path) = default_path {
+                return Err(default_path
+                    .span()
+                    .error("`internal` is incompatible with `default = …`")
+                    .span_note(here(), "`internal` declared here")
+                    .note("internal fields are set at construction time, so a default has nothing to fall back to")
+                    .help("remove `internal` to keep the default, or remove `default` and pass the value to `new(…)` positionally")
+                    .into());
             }
-            if overridable {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `overridable` — internal fields can't be \
-                     overridden after construction.",
-                ));
+            if let Some((true, overridable_path)) = overridable_with_path.as_ref() {
+                return Err(overridable_path
+                    .span()
+                    .error("`internal` is incompatible with `overridable`")
+                    .span_note(here(), "`internal` declared here")
+                    .note("internal fields can't be overridden after construction")
+                    .help("remove `internal` to allow override, or remove `overridable`")
+                    .into());
             }
-            if removable {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `removable` — internal fields can't be \
-                     removed after construction.",
-                ));
+            if let Some((true, removable_path)) = removable_with_path.as_ref() {
+                return Err(removable_path
+                    .span()
+                    .error("`internal` is incompatible with `removable`")
+                    .span_note(here(), "`internal` declared here")
+                    .note("internal fields can't be removed after construction")
+                    .help("remove `internal` to allow `drop_<field>`, or remove `removable`")
+                    .into());
             }
-            if setter_fn.is_some() {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `setter = …` — internal fields have no \
-                     setter (they're set positionally on `new(…)` instead).",
-                ));
+            if let Some(setter_path) = setter_path {
+                return Err(setter_path
+                    .span()
+                    .error("`internal` is incompatible with `setter = …`")
+                    .span_note(here(), "`internal` declared here")
+                    .note("internal fields have no setter — they're set positionally on `new(…)`")
+                    .help("remove `internal` to expose a setter, or remove `setter = …`")
+                    .into());
             }
-            if fallible {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `fallible` — internal fields have no \
-                     setter to be fallible.",
-                ));
+            if let Some((true, fallible_path)) = fallible_with_path.as_ref() {
+                return Err(fallible_path
+                    .span()
+                    .error("`internal` is incompatible with `fallible`")
+                    .span_note(here(), "`internal` declared here")
+                    .note("internal fields have no setter to be fallible")
+                    .help("remove `internal` to have a fallible setter, or remove `fallible`")
+                    .into());
             }
-            if async_fn {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `async_fn` — internal fields have no \
-                     setter to be async.",
-                ));
+            if let Some((true, async_path)) = async_fn_with_path.as_ref() {
+                return Err(async_path
+                    .span()
+                    .error("`internal` is incompatible with `async_fn`")
+                    .span_note(here(), "`internal` declared here")
+                    .note("internal fields have no setter to be async")
+                    .help("remove `internal` to have an async setter, or remove `async_fn`")
+                    .into());
             }
-            if input_ty.is_some() {
-                return Err(syn::Error::new(
-                    field.span(),
-                    "`internal` is incompatible with `input = …` — internal fields have no \
-                     setter, so there's no input type to override.",
-                ));
+            if let Some(input_path) = input_path {
+                return Err(input_path
+                    .span()
+                    .error("`internal` is incompatible with `input = …`")
+                    .span_note(here(), "`internal` declared here")
+                    .note("internal fields have no setter, so there's no input type to override")
+                    .help("remove `internal` to expose a setter, or remove `input`")
+                    .into());
             }
         }
 
@@ -240,7 +296,7 @@ impl FieldInfo {
                 format_ident!("with_{}", ident)
             }
         });
-        let default_helper_name = match (default_value.as_ref(), explicit_default_helper) {
+        let default_helper_name = match (default_value.as_ref(), explicit_default_helper_value) {
             (None, _) => None,
             (Some(_), Some(custom)) => Some(custom),
             (Some(_), None) => Some(format_ident!("{}_default", ident)),

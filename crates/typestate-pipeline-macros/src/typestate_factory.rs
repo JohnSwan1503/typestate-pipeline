@@ -20,40 +20,42 @@ mod spec;
 
 use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
-use syn::{spanned::Spanned, Data, DeriveInput, Fields};
+use syn::{Data, DeriveInput, Fields, spanned::Spanned};
 
-use crate::{prefix::facade_path, typestate_factory::carrier::Carrier};
+use crate::{
+    diag::MacroResult,
+    prefix::facade_path,
+    typestate_factory::carrier::Carrier,
+};
 
 use self::{
     codegen::{
-        gen_bag_struct, gen_default_helper, gen_drop_impl, gen_finalize_async, gen_finalize_sync,
-        gen_getter, gen_new_impl, gen_overrider, gen_ready_trait, gen_remover, gen_setter,
+        gen_bag_struct, gen_default_helper, gen_drop_impl, gen_empty_alias, gen_finalize_async,
+        gen_finalize_sync, gen_getter, gen_new_impl, gen_overrider, gen_ready_trait, gen_remover,
+        gen_setter,
     },
     container::Container,
     field::FieldInfo,
 };
 
-pub(crate) fn expand(input: DeriveInput) -> syn::Result<TokenStream2> {
+pub(crate) fn expand(input: DeriveInput) -> MacroResult<TokenStream2> {
     let original_name = &input.ident;
     let vis = &input.vis;
 
     let Data::Struct(data) = &input.data else {
-        return Err(syn::Error::new_spanned(
-            &input,
-            "TypestateFactory requires a struct",
-        ));
+        return Err(syn::Error::new_spanned(&input, "TypestateFactory requires a struct").into());
     };
     let Fields::Named(fields) = &data.fields else {
-        return Err(syn::Error::new_spanned(
-            &input,
-            "TypestateFactory requires named fields",
-        ));
+        return Err(
+            syn::Error::new_spanned(&input, "TypestateFactory requires named fields").into(),
+        );
     };
     if !input.generics.params.is_empty() {
         return Err(syn::Error::new(
             input.generics.span(),
             "TypestateFactory does not yet support generic structs",
-        ));
+        )
+        .into());
     }
 
     let container = Container::parse(&input)?;
@@ -62,13 +64,14 @@ pub(crate) fn expand(input: DeriveInput) -> syn::Result<TokenStream2> {
         .named
         .iter()
         .map(FieldInfo::parse)
-        .collect::<syn::Result<_>>()?;
+        .collect::<MacroResult<_>>()?;
 
     if fields.iter().any(|f| f.fallible) && container.error.is_none() {
         return Err(syn::Error::new(
             input.span(),
             "fallible setters require `#[factory(error = <Type>)]`",
-        ));
+        )
+        .into());
     }
 
     let prefix = facade_path();
@@ -129,6 +132,7 @@ pub(crate) fn expand(input: DeriveInput) -> syn::Result<TokenStream2> {
     let drop_impl = gen_drop_impl(bag, &fields, no_unsafe, &prefix);
     let finalize_impl = gen_finalize_sync(bag, original_name, vis, &fields, no_unsafe, &prefix);
     let ready_trait = gen_ready_trait(bag, original_name, vis, &fields, no_unsafe, &prefix);
+    let empty_alias = gen_empty_alias(bag, vis, &fields, &prefix);
     let finalize_async_impl = container
         .finalize_async
         .as_ref()
@@ -146,6 +150,7 @@ pub(crate) fn expand(input: DeriveInput) -> syn::Result<TokenStream2> {
         #drop_impl
         #finalize_impl
         #ready_trait
+        #empty_alias
         #finalize_async_impl
     };
 

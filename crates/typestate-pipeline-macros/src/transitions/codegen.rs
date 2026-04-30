@@ -1,13 +1,15 @@
 use proc_macro2::TokenStream as TokenStream2;
-use quote::{quote, ToTokens};
+use quote::{ToTokens, quote};
 use syn::{Attribute, Block, FnArg, Ident, ItemImpl};
 
 use super::{
     args::TransitionsArgs,
-    self_ty::{first_lifetime, merge_generics, pipeline_self_ty, Mode},
-    sig::{body_fn_ident, ParsedSig},
+    self_ty::{Mode, first_lifetime, merge_generics, pipeline_self_ty},
+    sig::{ParsedSig, body_fn_ident},
     spec::{BodyShape, TransitionSpec},
 };
+
+use crate::diag::MacroResult;
 
 impl TransitionSpec {
     pub(super) fn expand(
@@ -16,7 +18,7 @@ impl TransitionSpec {
         top: &TransitionsArgs,
         carrier: &Ident,
         prefix: &TokenStream2,
-    ) -> syn::Result<TokenStream2> {
+    ) -> MacroResult<TokenStream2> {
         let parsed = ParsedSig::parse(&self.method.sig, &top.ctx)?;
         let body_fn = self.build_body_fn(&parsed, template);
         let resolved_arm =
@@ -65,7 +67,9 @@ impl TransitionSpec {
         if let Some(arg) = iter.next() {
             v.push(arg.clone());
         }
-        if parsed.has_ctx && let Some(arg) = iter.next() {
+        if parsed.has_ctx
+            && let Some(arg) = iter.next()
+        {
             v.push(arg.clone());
         }
         for arg in iter {
@@ -82,7 +86,7 @@ impl TransitionSpec {
         top: &TransitionsArgs,
         carrier: &Ident,
         prefix: &TokenStream2,
-    ) -> syn::Result<TokenStream2> {
+    ) -> MacroResult<TokenStream2> {
         let method_name = &self.method.sig.ident;
         let body_name = body_fn_ident(method_name);
         let vis = &self.method.vis;
@@ -101,7 +105,7 @@ impl TransitionSpec {
             .map(|lt| quote!(#lt))
             .unwrap_or_else(|| quote!('_));
         let pipelined = quote! { #prefix::__private::Pipelined<#lifetime> };
-        let next_state = &self.args.into;
+        let next_state = &self.into;
         let dest_ty = |out_mode: Mode| -> TokenStream2 {
             match out_mode {
                 Mode::Resolved => quote! { <Self as #pipelined>::Resolved<#next_state> },
@@ -190,7 +194,11 @@ impl TransitionSpec {
                         let next = #body_call.await?;
                         ::core::result::Result::Ok(#out)
                     };
-                    (quote!(async), quote!(::core::result::Result<#dest, #err>), body)
+                    (
+                        quote!(async),
+                        quote!(::core::result::Result<#dest, #err>),
+                        body,
+                    )
                 }
                 (BodyShape::AsyncBreakpoint, Mode::InFlight) => {
                     let dest = dest_ty(Mode::Resolved);
@@ -201,7 +209,11 @@ impl TransitionSpec {
                         let next = #body_call.await?;
                         ::core::result::Result::Ok(#out)
                     };
-                    (quote!(async), quote!(::core::result::Result<#dest, #err>), body)
+                    (
+                        quote!(async),
+                        quote!(::core::result::Result<#dest, #err>),
+                        body,
+                    )
                 }
             };
 
