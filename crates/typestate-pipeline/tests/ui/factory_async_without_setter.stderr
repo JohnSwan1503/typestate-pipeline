@@ -1,5 +1,6 @@
 error: `async_fn` is only valid alongside `setter = <fn>`
- --> tests/ui/factory_async_without_setter.rs:5:5
+       = help: `async_fn` describes the setter transformer's shape — add `setter = <fn>` (the `async fn`) or remove `async_fn`
+ --> tests/ui/factory_async_without_setter.rs:5:23
   |
 5 |     #[field(required, async_fn)]
-  |     ^
+  |                       ^^^^^^^^
