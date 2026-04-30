@@ -1,99 +1,52 @@
-//! Smoke tests for [`impl_pipelined!`] — verifies the macro emits a usable
-//! [`Pipelined`] impl and [`IntoFuture`] forwarding for the conventional
-//! carrier shape.
-//!
-//! End-to-end exercise of the trait against `#[transitions]` (with `error`
-//! omitted) lives in `transitions_via_pipelined.rs`.
+#![allow(unused)]
 
-use core::fmt;
+#[path = "impl_pipelined/tests/shared.rs"]
+pub mod shared;
 
-use typestate_pipeline::{
-    impl_pipelined, BoxFuture, InFlight, Mode, Pipeline, Pipelined, Resolved,
-};
+#[path = "impl_pipelined/tests/pipelined_associated_types_resolve.rs"]
+pub mod pipelined_associated_types_resolve;
 
-#[derive(Debug)]
-struct Client;
+#[path = "impl_pipelined/tests/gat_projections_are_correct.rs"]
+pub mod gat_projections_are_correct;
 
-#[derive(Debug)]
-struct DummyError;
+#[path = "impl_pipelined/tests/intofuture_drives_inflight_back_to_resolved.rs"]
+pub mod intofuture_drives_inflight_back_to_resolved;
 
-impl fmt::Display for DummyError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_str("dummy")
-    }
-}
-impl std::error::Error for DummyError {}
+#[path = "impl_pipelined/tests/tagged_pipelined_resolves.rs"]
+pub mod tagged_pipelined_resolves;
 
-struct Author<'a, S, M = Resolved>(Pipeline<'a, Client, (), S, DummyError, M>)
-where
-    M: Mode<'a, S, DummyError>;
-
-impl_pipelined!(Author, ctx = Client, error = DummyError);
-
-#[derive(Debug, Clone)]
-struct Started;
-
-#[derive(Debug, Clone)]
-struct Finished;
+// ---------------------------------------------------------------------------
+// Pipelined associated types resolve to declared shapes.
+// ---------------------------------------------------------------------------
 
 #[test]
 fn pipelined_associated_types_resolve() {
-    fn assert_pipelined<'a, T>()
-    where
-        T: Pipelined<'a, Ctx = Client, Error = DummyError, Tag = ()>,
-    {
-    }
-    assert_pipelined::<Author<'_, Started, Resolved>>();
-    assert_pipelined::<Author<'_, Started, InFlight>>();
+    pipelined_associated_types_resolve::main();
 }
+
+// ---------------------------------------------------------------------------
+// GAT projections produce the expected concrete carrier types.
+// ---------------------------------------------------------------------------
 
 #[test]
 fn gat_projections_are_correct() {
-    // Resolved<NS> projects to NS-stated Resolved-mode carrier.
-    fn assert_resolved_projection<'a, A>()
-    where
-        A: Pipelined<'a>,
-        A::Resolved<Finished>: Pipelined<'a, State = Finished, Mode = Resolved>,
-    {
-    }
-    assert_resolved_projection::<Author<'_, Started, Resolved>>();
-
-    // InFlight<NS> projects similarly.
-    fn assert_inflight_projection<'a, A>()
-    where
-        A: Pipelined<'a>,
-        A::Ctx: Sync,
-        A::Error: Send,
-        A::InFlight<Finished>: Pipelined<'a, State = Finished, Mode = InFlight>,
-    {
-    }
-    assert_inflight_projection::<Author<'_, Started, Resolved>>();
+    gat_projections_are_correct::main();
 }
+
+// ---------------------------------------------------------------------------
+// IntoFuture drives an InFlight carrier back to its Resolved successor.
+// ---------------------------------------------------------------------------
 
 #[tokio::test]
 async fn intofuture_drives_inflight_back_to_resolved() {
-    let client = Client;
-    let pending: BoxFuture<'_, Result<Started, DummyError>> = Box::pin(async { Ok(Started) });
-    let in_flight = Author(Pipeline::in_flight(&client, pending));
-    let resolved: Author<Started, Resolved> = in_flight.await.unwrap();
-    let _ = resolved; // type-check only.
+    intofuture_drives_inflight_back_to_resolved::main().await;
 }
 
-// Sanity: customizing the tag also compiles.
-struct Tagged<'a, S, M = Resolved>(Pipeline<'a, Client, MyTag, S, DummyError, M>)
-where
-    M: Mode<'a, S, DummyError>;
-
-struct MyTag;
-
-impl_pipelined!(Tagged, ctx = Client, error = DummyError, tag = MyTag);
+// ---------------------------------------------------------------------------
+// Tagged carrier satisfies Pipelined<'a, Tag = MyTag>.
+// ---------------------------------------------------------------------------
 
 #[test]
 fn tagged_pipelined_resolves() {
-    fn assert<'a, T>()
-    where
-        T: Pipelined<'a, Tag = MyTag>,
-    {
-    }
-    assert::<Tagged<'_, Started, Resolved>>();
+    tagged_pipelined_resolves::main();
 }
