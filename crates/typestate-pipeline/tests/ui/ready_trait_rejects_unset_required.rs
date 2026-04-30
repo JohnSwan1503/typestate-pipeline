@@ -1,5 +1,5 @@
 //! `<BagName>Ready` must not be implemented when a required field's flag
-//! is `No`. Calling `into_finalized()` on a partial bag must fail to
+//! is `No`. Calling `finalize()` on a partial bag must fail to
 //! compile.
 
 use typestate_pipeline::TypestateFactory;
@@ -15,5 +15,5 @@ struct Profile {
 fn main() {
     let bag = ProfileFactory::new().name("alice".to_owned());
     // ERROR: `handle`'s flag is `No`, so `ProfileReady` isn't implemented.
-    let _ = bag.into_finalized();
+    let _ = bag.finalize();
 }

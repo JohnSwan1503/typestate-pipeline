@@ -150,10 +150,10 @@ where
     /// Schedule the deploy job. Async terminal — only callable when every
     /// required flag (the four head fields plus `parallelism`) is `Yes`.
     /// Optional flags `verify`/`worker` may be either: their declared
-    /// defaults apply at `into_finalized()` when unset.
+    /// defaults apply at `finalize()` when unset.
     #[transition(into = Deployed)]
     pub async fn deploy(state: B, ctx: &Client) -> Result<Deployed, AuthoringError> {
-        let data = state.into_finalized();
+        let data = state.finalize();
         let job_id = ctx.allocate_job_id().await;
         Ok(Deployed {
             namespace: data.namespace,

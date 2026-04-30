@@ -8,10 +8,12 @@ use crate::typestate_factory::field::FieldInfo;
 /// finalize-callable shape. Lets users write `where B: <BagName>Ready` as a
 /// shorthand for the explicit flag tuple plus per-flag bounds.
 ///
-/// The trait method is `into_finalized` (not `finalize`) to avoid
-/// method-resolution ambiguity in the auto-impl body — calling
-/// `self.finalize()` there would otherwise recurse into the trait method
-/// instead of dispatching to the inherent.
+/// The trait method is `finalize` — same name as the inherent — so users
+/// can call `bag.finalize()` whether `bag` is a concrete flag tuple
+/// (resolves to the inherent) or a generic `B: <Bag>Ready` (resolves to
+/// the trait). The auto-impl body uses fully-qualified path syntax
+/// (`<#bag<…> as ::core::ops::Drop>::…` style) to disambiguate the
+/// recursive call into the inherent rather than back into itself.
 ///
 /// Per-field bounds mirror `gen_finalize_sync` exactly.
 pub fn gen_ready_trait(
@@ -54,18 +56,24 @@ pub fn gen_ready_trait(
         /// Auto-implemented for any flag tuple where required fields are
         /// `Yes` and optional-with-default fields can be either. Use as a
         /// where-clause bound to abstract over the concrete flag tuple at
-        /// finalize-bound impl sites.
+        /// finalize-bound impl sites — `bag.finalize()` resolves to either
+        /// the inherent or this trait method, picking whichever's reachable
+        /// at the call site.
         #vis trait #trait_name: ::core::marker::Sized {
             /// Consume the bag and assemble the finalized struct.
             ///
-            /// Mirrors the inherent `finalize()` exactly.
-            fn into_finalized(self) -> #original;
+            /// Same name and semantics as the inherent `finalize()`.
+            fn finalize(self) -> #original;
         }
 
         impl< #( #impl_generics ),* > #trait_name for #bag< #( #flag_params ),* > {
             #[inline]
-            fn into_finalized(self) -> #original {
-                self.finalize()
+            fn finalize(self) -> #original {
+                // FQS to dispatch to the inherent `finalize` rather than
+                // recurse into this trait method. Inherent items take
+                // precedence in path-qualified resolution, so this is
+                // unambiguous.
+                <#bag< #( #flag_params ),* >>::finalize(self)
             }
         }
     }

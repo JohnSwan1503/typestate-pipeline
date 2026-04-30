@@ -1,11 +1,11 @@
-error[E0599]: the method `into_finalized` exists for struct `ProfileFactory<Yes>`, but its trait bounds were not satisfied
+error[E0599]: the method `finalize` exists for struct `ProfileFactory<Yes>`, but its trait bounds were not satisfied
   --> tests/ui/ready_trait_rejects_unset_required.rs:18:17
    |
  7 | #[derive(TypestateFactory)]
-   |          ---------------- method `into_finalized` not found for this struct because it doesn't satisfy `ProfileFactory<Yes>: ProfileFactoryReady`
+   |          ---------------- method `finalize` not found for this struct because it doesn't satisfy `ProfileFactory<Yes>: ProfileFactoryReady`
 ...
-18 |     let _ = bag.into_finalized();
-   |                 ^^^^^^^^^^^^^^ method cannot be called on `ProfileFactory<Yes>` due to unsatisfied trait bounds
+18 |     let _ = bag.finalize();
+   |                 ^^^^^^^^ method cannot be called on `ProfileFactory<Yes>` due to unsatisfied trait bounds
    |
   ::: $WORKSPACE/crates/typestate-pipeline-core/src/flag.rs
    |
@@ -16,10 +16,13 @@ note: trait bound `No: Satisfied` was not satisfied
   --> tests/ui/ready_trait_rejects_unset_required.rs:7:10
    |
  7 | #[derive(TypestateFactory)]
-   |          ^^^^^^^^^^^^^^^^ type parameter would need to implement `ProfileFactoryReady`
+   |          ^^^^^^^^^^^^^^^^
+   |          |
+   |          unsatisfied bound `No: Satisfied` introduced here
+   |          type parameter would need to implement `ProfileFactoryReady`
    = help: consider manually implementing the trait to avoid undesired bounds
    = help: items from traits can only be used if the trait is implemented and in scope
-note: `ProfileFactoryReady` defines an item `into_finalized`, perhaps you need to implement it
+note: `ProfileFactoryReady` defines an item `finalize`, perhaps you need to implement it
   --> tests/ui/ready_trait_rejects_unset_required.rs:7:10
    |
  7 | #[derive(TypestateFactory)]
