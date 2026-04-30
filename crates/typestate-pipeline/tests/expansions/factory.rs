@@ -37,6 +37,9 @@ mod finalize_async;
 #[path = "factory/ready_trait.rs"]
 mod ready_trait;
 
+#[path = "factory/empty_alias.rs"]
+mod empty_alias;
+
 // Gated to match the example's `required-features = ["no_unsafe"]`.
 #[cfg(feature = "no_unsafe")]
 #[path = "factory/no_unsafe.rs"]
