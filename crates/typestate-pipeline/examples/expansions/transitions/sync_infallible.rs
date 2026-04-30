@@ -1,29 +1,3 @@
-//! Sync infallible transition: a `fn` returning a non-`Result`. The
-//! macro emits two arms:
-//!
-//! - **Resolved arm** — applies the body inline; returns the carrier in
-//!   `Resolved` mode for the next state.
-//! - **InFlight arm** — awaits the pending state, applies the body, and
-//!   re-wraps the result as `InFlight` so the chain keeps folding into a
-//!   single terminal `.await?`.
-//!
-//! =============================================================================
-//! Generated (sketch)
-//! =============================================================================
-//!
-//!     impl<'a> Author<'a, Versioned, Resolved> {
-//!         pub fn with_parallelism(self, parallelism: u16)
-//!             -> Author<'a, JobConfigured, Resolved>;
-//!     }
-//!     impl<'a> Author<'a, Versioned, InFlight>
-//!     where
-//!         Versioned: Send + 'a,
-//!         JobConfigured: Send + 'a,
-//!     {
-//!         pub fn with_parallelism(self, parallelism: u16)
-//!             -> Author<'a, JobConfigured, InFlight>;
-//!     }
-
 use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, pipelined, transitions};

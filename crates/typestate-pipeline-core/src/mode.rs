@@ -19,6 +19,7 @@ pub type BoxFuture<'a, T> = Pin<Box<dyn Future<Output = T> + Send + 'a>>;
 /// Storage-shape selector for [`Pipeline`](crate::Pipeline).
 ///
 /// Sealed; implemented only by [`Resolved`] and [`InFlight`].
+#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Mode<'a, S, E>: sealed::Mode {
     /// The field type held by the pipeline under this mode.
     type Storage;
@@ -34,7 +35,7 @@ impl<'a, S: 'a, E: 'a> Mode<'a, S, E> for Resolved {
 }
 
 /// Mode marker: the pipeline holds a future resolving to the state data.
-/// The pipeline implements [`IntoFuture`](std::future::IntoFuture) in this
+/// The pipeline implements [`IntoFuture`] in this
 /// mode.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct InFlight;

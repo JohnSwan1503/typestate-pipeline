@@ -1,13 +1,3 @@
-//! Combination case: a standalone `TypestateFactory` bag built outside
-//! the carrier, then handed to a `#[transitions]` body that consumes it
-//! mid-chain. The bag's `finalize()` produces a regular struct, which the
-//! transition uses to compute the next state.
-//!
-//! This is the canonical bridge between "named-field accumulator" and
-//! "phase machine" when the bag is built independently — e.g. handed in
-//! from configuration. For the alternative — emit setters directly on
-//! the carrier — see `../factory/pipeline_arm.rs`.
-
 use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, TypestateFactory, pipelined, transitions};

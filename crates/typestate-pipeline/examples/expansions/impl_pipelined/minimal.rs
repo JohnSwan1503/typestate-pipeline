@@ -1,16 +1,3 @@
-//! `impl_pipelined!(Author, ctx = Hub, error = AppError)` does everything
-//! `pipelined!` does *except* declare the struct. Use it when you want
-//! the struct to carry custom derives, extra generics, or different
-//! field ordering — anything not covered by the conventional shape.
-//!
-//! Both macros also accept `tag = MyTag` as a final argument.
-//!
-//! =============================================================================
-//! Generated (sketch)
-//! =============================================================================
-//!
-//! Same as `../pipelined/minimal.rs` minus the struct declaration.
-
 use core::fmt;
 
 use typestate_pipeline::{Mode, Pipeline, Resolved, impl_pipelined};

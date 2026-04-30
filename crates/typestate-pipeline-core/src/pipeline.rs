@@ -28,6 +28,9 @@ use crate::mode::{BoxFuture, InFlight, Mode, Resolved};
 /// accessors) to read. Sealing the fields means a downstream user's
 /// carrier newtype can't accidentally bypass the typestate machinery by
 /// hand-substituting `inner` or forging a `_tag`.
+#[doc(alias = "state machine")]
+#[doc(alias = "carrier")]
+#[doc(alias = "typestate")]
 pub struct Pipeline<'a, Ctx, Tag, S, E, M = Resolved>
 where
     Ctx: ?Sized,
@@ -133,7 +136,7 @@ where
     fn into_future(self) -> Self::IntoFuture {
         let ctx = self.ctx;
         let pending = self.inner;
-        Box::pin(async move {
+        Box::pin(async {
             let state = pending.await?;
             Ok(Pipeline::resolved(ctx, state))
         })
@@ -161,7 +164,7 @@ where
         let pending = self.inner;
         Pipeline::in_flight(
             ctx,
-            Box::pin(async move {
+            Box::pin(async {
                 let state = pending.await?;
                 Ok(f(state))
             }),
@@ -180,7 +183,7 @@ where
         let pending = self.inner;
         Pipeline::in_flight(
             ctx,
-            Box::pin(async move {
+            Box::pin(async {
                 let state = pending.await?;
                 f(state)
             }),

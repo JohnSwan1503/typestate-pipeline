@@ -11,6 +11,7 @@
 /// Sealed; implemented only by [`Yes`] and [`No`]. The associated constant
 /// [`IS_SET`](Self::IS_SET) lets the unsafe-mode bag's `Drop` impl drop only
 /// initialized fields.
+#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Satisfiable: sealed::Satisfiable {
     /// `true` if the flag indicates the field is set.
     const IS_SET: bool;
@@ -20,6 +21,7 @@ pub trait Satisfiable: sealed::Satisfiable {
 ///
 /// Use as a bound when generic code requires a flag that witnesses
 /// initialization.
+#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Satisfied: Satisfiable + sealed::Satisfied {}
 
 /// Per-field type-level storage selector for the safe-mode codegen path
@@ -37,6 +39,7 @@ pub trait Satisfied: Satisfiable + sealed::Satisfied {}
 /// dispatch. For optional-with-default fields the trait method picks the
 /// stored value or evaluates the default thunk; the dispatch is resolved
 /// at monomorphization.
+#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Storage<T>: Satisfiable {
     /// The bag's actual field type for this flag — `T` for [`Yes`], `()` for
     /// [`No`].

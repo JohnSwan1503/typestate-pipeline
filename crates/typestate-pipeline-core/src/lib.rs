@@ -1,3 +1,4 @@
+#![cfg_attr(docsrs, feature(doc_cfg, doc_notable_trait))]
 //! Runtime primitives for the typestate-pipeline ecosystem.
 //!
 //! - [`Pipeline`] is the dual-mode pipeline carrier; concrete pipelines are

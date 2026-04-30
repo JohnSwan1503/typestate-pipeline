@@ -1,25 +1,3 @@
-//! `pipelined!(…, tag = MyTag)` (or `impl_pipelined!(…, tag = MyTag)`)
-//! attaches a phantom tag to the carrier. The tag is invariant in the
-//! type system but doesn't carry runtime data — useful when you want to
-//! statically distinguish "two pipelines that look the same" (e.g. one
-//! per dataset kind) without changing the value-level shape.
-//!
-//! When omitted, `tag` defaults to `()`.
-//!
-//! =============================================================================
-//! Generated (sketch) — diff from `./minimal.rs`
-//! =============================================================================
-//!
-//!     pub struct Author<'a, S, M = Resolved>(
-//!         Pipeline<'a, Hub, RawKind, S, AppError, M>,
-//!     )                          //  ^^^^^^^ tag slot
-//!     where M: Mode<'a, S, AppError>;
-//!
-//!     impl<…> Pipelined<'a> for Author<'a, S, M> {
-//!         type Tag = RawKind;        // <-- the only Pipelined associated-type diff
-//!         …
-//!     }
-
 use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, pipelined};

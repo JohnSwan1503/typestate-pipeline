@@ -1,25 +1,3 @@
-//! `#[field(input = T)]` (paired with `setter = my_fn`) lets the setter
-//! accept a different *input* type than the field stores; the transformer
-//! bridges the gap. Convenient when the storage type has wrapping users
-//! shouldn't have to spell out (`Option<T>`, `Box<T>`, smart pointers,
-//! parsed types).
-//!
-//! When a `default = …` is also declared, the default helper bypasses the
-//! transformer and writes the *field* type directly — the default
-//! expression is evaluated as the storage type, not the input type.
-//!
-//! =============================================================================
-//! Generated (sketch) — diff from baseline (see `./minimal.rs`)
-//! =============================================================================
-//!
-//!     impl<F1> ProfileFactory<F1, No> {
-//!         // Setter takes `String` (the input type), not `Option<String>`.
-//!         pub fn with_worker(self, val: String) -> ProfileFactory<F1, Yes>;
-//!         // Default helper writes the field type directly (`Option<String>`),
-//!         // bypassing the transformer entirely.
-//!         pub fn worker_default(self) -> ProfileFactory<F1, Yes>;
-//!     }
-
 use typestate_pipeline::TypestateFactory;
 
 #[derive(TypestateFactory)]

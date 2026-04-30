@@ -38,6 +38,9 @@ use crate::mode::{InFlight, Mode, Resolved};
 /// the projection is type-system-enforced, so a carrier with unusual
 /// generic ordering or extra type parameters works as long as the impl is
 /// correct.
+#[doc(alias = "carrier")]
+#[doc(alias = "state machine")]
+#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Pipelined<'a>: Sized {
     /// Borrowed context type — usually a client/handle the pipeline reads
     /// during transitions.
@@ -58,25 +61,25 @@ pub trait Pipelined<'a>: Sized {
     /// Carrier type for the *same* `Ctx`/`Error`/`Tag`, with state `NS`
     /// and mode `Resolved`.
     type Resolved<NS: 'a>: Pipelined<
-        'a,
-        Ctx = Self::Ctx,
-        Error = Self::Error,
-        Tag = Self::Tag,
-        State = NS,
-        Mode = Resolved,
-    >;
+            'a,
+            Ctx = Self::Ctx,
+            Error = Self::Error,
+            Tag = Self::Tag,
+            State = NS,
+            Mode = Resolved,
+        >;
 
     /// Carrier type for the *same* `Ctx`/`Error`/`Tag`, with state `NS`
     /// and mode `InFlight`. Only valid when `Self::Ctx: Sync` and
     /// `Self::Error: Send` (the `InFlight` mode's bounds).
     type InFlight<NS: Send + 'a>: Pipelined<
-        'a,
-        Ctx = Self::Ctx,
-        Error = Self::Error,
-        Tag = Self::Tag,
-        State = NS,
-        Mode = InFlight,
-    >
+            'a,
+            Ctx = Self::Ctx,
+            Error = Self::Error,
+            Tag = Self::Tag,
+            State = NS,
+            Mode = InFlight,
+        >
     where
         Self::Ctx: Sync,
         Self::Error: Send;

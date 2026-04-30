@@ -45,11 +45,29 @@ no_unsafe = ["typestate-pipeline-macros/no_unsafe"]
 dataset-authoring-example = ["dep:serde", "dep:serde_json", "dep:thiserror"]
 
 [[example]]
+name = "minimal"
+doc-scrape-examples = true
+
+[[example]]
+name = "quickstart"
+doc-scrape-examples = true
+
+[[example]]
 name = "dataset_authoring"
 required-features = ["dataset-authoring-example"]
+doc-scrape-examples = true
 
 # Files under `examples/expansions/<category>/<feature>.rs` are not declared
 # as `[[example]]` targets — they're source-browsable demos of the macros'
 # generated surface, paired with compile-time contracts in
 # `tests/expansions/<category>/<feature>.rs` that lock in the same surface.
 # A future build.rs may emit `[[example]]` entries for them automatically.
+
+[package.metadata.docs.rs]
+# Build with every feature enabled so feature-gated items render on docs.rs.
+all-features = true
+# `--cfg docsrs` lights up the `#[cfg_attr(docsrs, doc(cfg(...)))]` and
+# `doc(notable_trait)` annotations in the source.
+rustdoc-args = ["--cfg", "docsrs", "--html-in-header", "docs/diagnostics.html"]
+# Pull real call sites from the `examples/` directory into the rendered docs.
+cargo-args = ["-Zunstable-options", "-Zrustdoc-scrape-examples"]

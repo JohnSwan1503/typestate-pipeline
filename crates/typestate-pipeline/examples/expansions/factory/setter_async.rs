@@ -1,23 +1,3 @@
-//! `#[field(setter = my_fn, async_fn)]` makes the setter `async fn`,
-//! awaiting the transformer before constructing the next bag. Combine
-//! with `fallible` for an async fallible setter that returns
-//! `Result<NextBag, Error>` after `.await`.
-//!
-//! `default` is rejected when paired with `async_fn` (defaults must be
-//! synchronous expressions).
-//!
-//! =============================================================================
-//! Generated (sketch) — diff from baseline (see `./minimal.rs`)
-//! =============================================================================
-//!
-//!     impl<F2> UserFactory<No, F2> {
-//!         pub async fn name(self, val: String) -> UserFactory<Yes, F2>;
-//!     }
-//!     impl<F1> UserFactory<F1, No> {
-//!         pub async fn email(self, val: String)
-//!             -> Result<UserFactory<F1, Yes>, BadInput>;
-//!     }
-
 use core::fmt;
 
 use typestate_pipeline::TypestateFactory;

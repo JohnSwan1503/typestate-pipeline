@@ -1,26 +1,3 @@
-//! Sync fallible transition: a `fn` returning `Result<Next, E>`.
-//!
-//! - **Resolved arm** returns `Result<Author<Next, Resolved>, E>` — the
-//!   error is right at the call site, no `.await` involved.
-//! - **InFlight arm** *folds* the body's `Result` into the pending future;
-//!   no `Result` at the call site, the error surfaces at the chain's
-//!   terminal `.await?`.
-//!
-//! =============================================================================
-//! Generated (sketch)
-//! =============================================================================
-//!
-//!     impl<'a> Author<'a, JobConfigured, Resolved> {
-//!         pub fn validate(self)
-//!             -> Result<Author<'a, JobConfigured, Resolved>, AppError>;
-//!     }
-//!     impl<'a> Author<'a, JobConfigured, InFlight>
-//!     where /* Send + 'a bounds */
-//!     {
-//!         pub fn validate(self) -> Author<'a, JobConfigured, InFlight>;
-//!         //                       ^^^ Result is folded into the pending future
-//!     }
-
 use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, pipelined, transitions};

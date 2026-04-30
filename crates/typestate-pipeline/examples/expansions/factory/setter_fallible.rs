@@ -1,20 +1,3 @@
-//! `#[field(setter = my_fn, fallible)]` makes the setter return
-//! `Result<NextBag, Error>`. The error type is read from
-//! `#[factory(error = Error)]`, which is required when any field is
-//! `fallible`. A failing setter does not consume `self` past the point of
-//! failure — the bag still owns its previously-set fields and they drop
-//! normally on the `Err` branch.
-//!
-//! =============================================================================
-//! Generated (sketch) — diff from baseline (see `./minimal.rs`)
-//! =============================================================================
-//!
-//!     impl UserFactory<No> {
-//!         pub fn name(self, val: String)
-//!             -> Result<UserFactory<Yes>, ValidationError>
-//!         { /* body: stores `require_nonempty(val)?` */ }
-//!     }
-
 use core::fmt;
 
 use typestate_pipeline::TypestateFactory;

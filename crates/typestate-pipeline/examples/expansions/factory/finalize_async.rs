@@ -1,23 +1,3 @@
-//! `#[factory(finalize_async(via = my_fn, into = Target, error = E?))]`
-//! emits an `async fn finalize_async()` on the bag, callable on the same
-//! shapes as `finalize()`. The body is `my_fn(self.finalize()).await`,
-//! so `my_fn` receives the assembled raw struct and produces the final
-//! value (with or without an error).
-//!
-//! `finalize_async` does **not** replace the inherent `finalize()` —
-//! both coexist. Use whichever fits the call site.
-//!
-//! =============================================================================
-//! Generated (sketch) — diff from baseline (see `./minimal.rs`)
-//! =============================================================================
-//!
-//!     impl UserFactory<Yes> {
-//!         pub async fn finalize_async(self) -> Result<ConfirmedUser, BadInput>;
-//!         //                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!         //   omit `error = …` to drop the `Result` wrapper:
-//!         //   pub async fn finalize_async(self) -> ConfirmedUser;
-//!     }
-
 use core::fmt;
 
 use typestate_pipeline::TypestateFactory;

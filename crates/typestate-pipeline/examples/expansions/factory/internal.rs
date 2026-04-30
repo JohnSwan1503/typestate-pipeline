@@ -1,33 +1,3 @@
-//! `#[field(internal)]` makes a field positional on `new(…)` and locked
-//! from then on. Four user-visible consequences:
-//!
-//! - `new(…)` takes the internal field as a parameter.
-//! - The bag's flag-generic list does **not** include the internal field
-//!   (a struct with two non-internal fields has `Factory<F1, F2>`, not
-//!   `Factory<F1, F2, F3>`).
-//! - No setter, remover, overrider, or default helper is emitted.
-//! - The getter is unconditional — callable on any bag shape.
-//!
-//! Internal fields are incompatible with `optional`, `default`,
-//! `overridable`, `removable`, `setter`, `fallible`, `async_fn`, and
-//! `input` — using any of them errors at expansion.
-//!
-//! =============================================================================
-//! Generated (sketch) — diff from baseline (see `./minimal.rs`)
-//! =============================================================================
-//!
-//!     // No flag generic for `namespace`; it lives in the struct as plain T.
-//!     struct JobFactory<F1 = No, F2 = No> { /* private */ }
-//!
-//!     impl JobFactory<No, No> {
-//!         pub fn new(namespace: String) -> Self;   // positional
-//!     }
-//!     impl<F1, F2> JobFactory<F1, F2> {
-//!         pub fn namespace(&self) -> &String;     // unconditional getter
-//!     }
-//!     // (no `fn namespace(self, …)` setter, no `drop_namespace`, no
-//!     //  `override_namespace`, no `namespace_default`.)
-
 use typestate_pipeline::TypestateFactory;
 
 #[derive(TypestateFactory)]
