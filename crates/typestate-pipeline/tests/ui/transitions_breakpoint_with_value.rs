@@ -9,8 +9,8 @@ struct B;
 
 #[transitions(error = ())]
 impl<'a> Author<'a, A> {
-    #[transition(into = B, deferred = true)]
-    fn noop(state: A) -> B {
+    #[transition(into = B, breakpoint = true)]
+    async fn noop(state: A) -> B {
         let _ = state;
         B
     }

@@ -1,34 +1,3 @@
-//! Async deferred transition: an `async fn` returning `Result<Next, E>`,
-//! with no `deferred = false` on the `#[transition]` attribute (deferred
-//! is the default for `async fn` bodies). Both arms produce
-//! `InFlight` carriers — that's the lift that lets a chain like
-//! `pipeline.tag_version(7).with_parallelism(8).deploy().await?` fold
-//! every step into one terminal `.await?`.
-//!
-//! - **Resolved arm** wraps the body's future and lifts the carrier from
-//!   `Resolved` to `InFlight`; returns `Author<'a, Next, InFlight>`.
-//! - **InFlight arm** chains the body's future onto the pending future;
-//!   returns `Author<'a, Next, InFlight>` again.
-//!
-//! For a transition where the next link needs the resolved value to
-//! compute its arguments, pair this with `#[transition(deferred = false)]`
-//! — see `./async_breakpoint.rs`.
-//!
-//! =============================================================================
-//! Generated (sketch)
-//! =============================================================================
-//!
-//!     impl<'a> Author<'a, Registered, Resolved> {
-//!         pub fn tag_version(self, version: u32)
-//!             -> Author<'a, Versioned, InFlight>;   // lift to InFlight
-//!     }
-//!     impl<'a> Author<'a, Registered, InFlight>
-//!     where /* Send + 'a bounds */
-//!     {
-//!         pub fn tag_version(self, version: u32)
-//!             -> Author<'a, Versioned, InFlight>;
-//!     }
-
 use core::fmt;
 
 use typestate_pipeline::{Pipeline, Resolved, pipelined, transitions};
