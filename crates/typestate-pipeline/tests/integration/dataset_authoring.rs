@@ -4,7 +4,7 @@
 #[path = "dataset_authoring/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "dataset_authoring/tests/new_evm_rpc_flow_terminates_at_deployed.rs"]
 pub mod new_evm_rpc_flow_terminates_at_deployed;

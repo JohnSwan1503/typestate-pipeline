@@ -3,7 +3,7 @@
 #[path = "core/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "core/tests/build_in_order.rs"]
 pub mod build_in_order;

@@ -4,7 +4,7 @@
 #[path = "factory_no_unsafe/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "factory_no_unsafe/tests/build_in_order.rs"]
 pub mod build_in_order;

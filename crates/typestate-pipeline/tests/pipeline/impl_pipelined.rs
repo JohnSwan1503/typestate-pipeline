@@ -3,7 +3,7 @@
 #[path = "impl_pipelined/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "impl_pipelined/tests/pipelined_associated_types_resolve.rs"]
 pub mod pipelined_associated_types_resolve;

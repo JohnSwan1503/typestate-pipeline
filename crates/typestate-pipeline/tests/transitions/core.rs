@@ -3,7 +3,7 @@
 #[path = "core/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "core/tests/full_chain_with_resolved_breakpoint_in_middle.rs"]
 pub mod full_chain_with_resolved_breakpoint_in_middle;

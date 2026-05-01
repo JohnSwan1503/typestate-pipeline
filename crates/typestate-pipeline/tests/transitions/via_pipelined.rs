@@ -3,7 +3,7 @@
 #[path = "via_pipelined/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "via_pipelined/tests/transitions_chain_without_error_arg.rs"]
 pub mod transitions_chain_without_error_arg;

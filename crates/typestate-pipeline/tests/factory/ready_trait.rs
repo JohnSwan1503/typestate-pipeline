@@ -3,7 +3,7 @@
 #[path = "ready_trait/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "ready_trait/tests/ready_trait_is_implemented_when_required_flags_yes.rs"]
 pub mod ready_trait_is_implemented_when_required_flags_yes;

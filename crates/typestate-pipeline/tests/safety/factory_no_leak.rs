@@ -3,7 +3,7 @@
 #[path = "factory_no_leak/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "factory_no_leak/tests/fallible_setter_failure_drops_other_set_fields.rs"]
 pub mod fallible_setter_failure_drops_other_set_fields;

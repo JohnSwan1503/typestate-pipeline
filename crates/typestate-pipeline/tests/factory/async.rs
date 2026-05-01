@@ -3,7 +3,7 @@
 #[path = "async/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "async/tests/standalone_async_setter_non_fallible.rs"]
 pub mod standalone_async_setter_non_fallible;

@@ -3,7 +3,7 @@
 #[path = "factory_pipeline/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "factory_pipeline/tests/pipeline_setters_chain_in_resolved_mode.rs"]
 pub mod pipeline_setters_chain_in_resolved_mode;

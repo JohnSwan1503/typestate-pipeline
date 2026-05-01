@@ -3,7 +3,7 @@
 #[path = "inspect/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "inspect/tests/resolved_inspect_runs_sync_and_preserves_chain.rs"]
 pub mod resolved_inspect_runs_sync_and_preserves_chain;

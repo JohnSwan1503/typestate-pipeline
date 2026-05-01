@@ -3,7 +3,7 @@
 #[path = "internal_field/tests/shared.rs"]
 mod shared;
 
-pub(self) use shared::*;
+use shared::*;
 
 #[path = "internal_field/tests/constructor_takes_internal_field_as_argument.rs"]
 pub mod constructor_takes_internal_field_as_argument;
