@@ -58,4 +58,3 @@ pub struct User {
     #[field(required)]
     pub name: String,
 }
-

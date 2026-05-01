@@ -1,6 +1,4 @@
-use typestate_pipeline::{
-    InFlight, Pipeline, Resolved, TypestateFactory, pipelined, transitions,
-};
+use typestate_pipeline::{InFlight, Pipeline, Resolved, TypestateFactory, pipelined, transitions};
 
 use super::domain::Server;
 use super::error::AppError;

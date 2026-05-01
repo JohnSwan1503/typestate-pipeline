@@ -22,11 +22,7 @@ use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
 use syn::{Data, DeriveInput, Fields, spanned::Spanned};
 
-use crate::{
-    diag::MacroResult,
-    prefix::facade_path,
-    typestate_factory::carrier::Carrier,
-};
+use crate::{diag::MacroResult, prefix::facade_path, typestate_factory::carrier::Carrier};
 
 use self::{
     codegen::{

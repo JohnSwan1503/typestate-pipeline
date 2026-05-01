@@ -9,12 +9,11 @@ use shared::{AppError, Author, Drafted, Hub, drafted_inflight};
 
 pub async fn main() {
     let hub = Hub;
-    let pending: typestate_pipeline::BoxFuture<'_, Result<Drafted, AppError>> =
-        Box::pin(async {
-            Ok(Drafted {
-                name: "x".to_owned(),
-            })
-        });
+    let pending: typestate_pipeline::BoxFuture<'_, Result<Drafted, AppError>> = Box::pin(async {
+        Ok(Drafted {
+            name: "x".to_owned(),
+        })
+    });
     let in_flight = drafted_inflight(&hub, pending);
     let resolved: Author<Drafted, Resolved> = in_flight.into_future().await.unwrap();
     assert_eq!(resolved.into_state().name, "x");

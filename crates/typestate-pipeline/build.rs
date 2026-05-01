@@ -88,7 +88,7 @@ fn render_line(line: &str, level: &mut &'static str, out: &mut String) {
     if try_diff(line, out) {
         return;
     }
-    if try_gutter(line, *level, out) {
+    if try_gutter(line, level, out) {
         return;
     }
     push_escaped(out, line);

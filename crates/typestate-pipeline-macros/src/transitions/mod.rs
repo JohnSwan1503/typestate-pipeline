@@ -10,10 +10,7 @@ use proc_macro2_diagnostics::SpanDiagnosticExt;
 use quote::ToTokens;
 use syn::{Attribute, Ident, ImplItem, ItemImpl, Type, spanned::Spanned};
 
-use crate::{
-    diag::MacroResult,
-    prefix::facade_path,
-};
+use crate::{diag::MacroResult, prefix::facade_path};
 
 mod args;
 mod codegen;

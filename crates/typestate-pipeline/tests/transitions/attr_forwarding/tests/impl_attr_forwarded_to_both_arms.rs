@@ -49,11 +49,7 @@ pub async fn main() {
     // InFlight arm — calling on the InFlight carrier compiles, proving
     // the InFlight arm also survived. If only one arm received the cfg
     // attr we'd get either dead code or a compile error here.
-    let inflight = Author(Pipeline::in_flight(
-        &hub,
-        Box::pin(async { Ok(Started) }),
-    ))
-    .finish();
+    let inflight = Author(Pipeline::in_flight(&hub, Box::pin(async { Ok(Started) }))).finish();
     let resolved = inflight.await.unwrap();
     let _: Author<Finished, Resolved> = resolved;
 }
