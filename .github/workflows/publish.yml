@@ -13,19 +13,47 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  publish:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all --check
+
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
+
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        RUST: ["1.92.0", stable, beta, nightly]
+        rust:
+          - 1.92.0
+          - stable
+          - nightly
+    steps:
+      - uses: actions/checkout@v6
+      - run: rustup default ${{ matrix.rust }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --workspace --all-features --locked
+
+  publish:
+    needs: [clippy, fmt, test]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - name: Set Rust version
-        run: rustup default ${{ matrix.RUST }}
-      - name: Build
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose
+        run: rustup default stable
 
       - name: Verify tag matches workspace version
         run: |
@@ -36,25 +64,63 @@ jobs:
             exit 1
           fi
 
-      - name: Test
-        run: cargo test --workspace --all-features --locked
-
       - name: Publish typestate-pipeline-core
+        id: publish-core
         run: cargo publish -p typestate-pipeline-core --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
+      - name: Wait for typestate-pipeline-core to be indexable
+        if: steps.publish-core.outcome == 'success'
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          crate="typestate-pipeline-core"
+          url="https://index.crates.io/ty/pe/${crate}"
+          for i in $(seq 1 60); do
+            if curl -fsSL -H 'Cache-Control: no-cache' "$url" \
+                | grep -F "\"vers\":\"${version}\"" >/dev/null; then
+              echo "${crate} ${version} indexable after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "timed out waiting for ${crate} ${version} to appear on the index" >&2
+          exit 1
+
       - name: Publish typestate-pipeline-macros
+        id: publish-macros
+        if: steps.publish-core.outcome == 'success'
         run: cargo publish -p typestate-pipeline-macros --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
+      - name: Wait for typestate-pipeline-macros to be indexable
+        if: steps.publish-macros.outcome == 'success'
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          crate="typestate-pipeline-macros"
+          url="https://index.crates.io/ty/pe/${crate}"
+          for i in $(seq 1 60); do
+            if curl -fsSL -H 'Cache-Control: no-cache' "$url" \
+                | grep -F "\"vers\":\"${version}\"" >/dev/null; then
+              echo "${crate} ${version} indexable after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "timed out waiting for ${crate} ${version} to appear on the index" >&2
+          exit 1
+
       - name: Publish typestate-pipeline
+        id: publish-pipeline
+        if: steps.publish-macros.outcome == 'success'
         run: cargo publish -p typestate-pipeline --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
       - name: Create GitHub Release
+        id: create-release
+        if: steps.publish-pipeline.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

@@ -289,7 +289,7 @@ dependencies = [
 
 [[package]]
 name = "typestate-pipeline"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "rustversion",
  "serde",
@@ -303,11 +303,11 @@ dependencies = [
 
 [[package]]
 name = "typestate-pipeline-core"
-version = "0.1.0"
+version = "0.2.0"
 
 [[package]]
 name = "typestate-pipeline-macros"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "convert_case",
  "proc-macro-crate",

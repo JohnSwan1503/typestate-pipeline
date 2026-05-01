@@ -16,16 +16,16 @@ keywords = ["typestate", "pipeline", "builder", "derive macro", "proc macro"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/JohnSwan1503/typestate-pipeline"
-rust-version = "1.88"
-version = "0.1.0"
+rust-version = "1.92"
+version = "0.2.0"
 
 [workspace.dependencies]
 proc-macro2 = "1"
 quote = "1"
 syn = { version = "2", features = ["full"] }
 
-typestate-pipeline-core = { path = "crates/typestate-pipeline-core", version = "=0.1.0" }
-typestate-pipeline-macros = { path = "crates/typestate-pipeline-macros", version = "=0.1.0" }
+typestate-pipeline-core = { path = "crates/typestate-pipeline-core", version = "=0.2.0" }
+typestate-pipeline-macros = { path = "crates/typestate-pipeline-macros", version = "=0.2.0" }
 
 # Dev dependencies
 tokio = { version = "1", features = ["macros", "rt"] }
