@@ -12,4 +12,4 @@ and stores its return. The setter's *signature* is identical to
 the baseline — same input type, same output bag — only the body
 changes. The transformer can do anything synchronous. When the
 return type needs to differ from the input type, that's the
-next recipe.
+next section.

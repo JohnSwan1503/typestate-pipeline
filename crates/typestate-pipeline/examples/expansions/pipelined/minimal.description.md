@@ -14,7 +14,7 @@ emits four pieces:
    yields a `Result<Author<'a, S, Resolved>, Error>`. This is
    what powers the deferred fold from the previous section.
 4. A chainable `inspect(|c| …)` combinator on both modes (the
-   subject of the next recipe).
+   subject of the next section).
 
 The `pub` (or its absence) on the macro invocation propagates
 to the struct. Drop the leading `pub` to scope the carrier

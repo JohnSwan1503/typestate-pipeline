@@ -1,6 +1,6 @@
 ### Renaming: when the defaults clash
 
-The previous five recipes covered every flag transition the
+The previous five sections covered every flag transition the
 factory understands. The next batch covers the *setter body* —
 what runs inside the method when a value is being stored. Before
 diving in, one cosmetic detour: the names of the generated

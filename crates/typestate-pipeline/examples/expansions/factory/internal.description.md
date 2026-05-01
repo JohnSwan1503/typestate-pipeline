@@ -1,6 +1,6 @@
 ### Internal field: locked at construction
 
-Every recipe so far has assumed each field can be set, unset,
+Every section so far has assumed each field can be set, unset,
 or left to a default — that the caller has agency over every
 field. Sometimes that's wrong. A namespace identifier, a cluster
 key, a session token: these are "given context" the constructor

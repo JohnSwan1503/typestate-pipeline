@@ -9,4 +9,4 @@ The naming convention isn't load-bearing — it's a hint to the
 reader of the call site that the field isn't a core input. The
 real way to make a field genuinely optional, where `finalize()`
 can succeed without the field ever being set, is the next
-recipe.
+section.

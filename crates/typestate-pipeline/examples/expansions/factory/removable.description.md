@@ -17,5 +17,5 @@ phase guarded by branches that may or may not supply a new one.
 the drop and the next setter, the bag carries `No` for that
 flag, and any code that tries to use the field has to typecheck
 against the unset shape. When the value just needs to be
-replaced in place with no observable gap, the next recipe's
+replaced in place with no observable gap, the next section's
 `overridable` is shorter.

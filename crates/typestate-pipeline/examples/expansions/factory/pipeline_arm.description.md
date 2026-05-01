@@ -1,6 +1,6 @@
 ### Pipeline arm: setters on the carrier
 
-Every recipe so far has built the bag *standalone*: callers
+Every section so far has built the bag *standalone*: callers
 invoke setters on the bag, finalize, and only then hand the
 result somewhere. That's fine when the bag is a configuration
 struct assembled outside any phase machine. When the bag *is*

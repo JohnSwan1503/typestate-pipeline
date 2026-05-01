@@ -36,4 +36,4 @@ That is what the symmetry buys.
 
 Four body shapes cover every case the macro recognizes:
 sync infallible, sync fallible, async deferred, and async
-breakpoint. They're the next four recipes.
+breakpoint. They're the next four sections.

@@ -48,7 +48,7 @@ pub mod dataset_authoring;
 /// One continuous narrative covering every macro the crate
 /// offers — the factory first, then `#[transitions]`, then the
 /// carrier macros (`pipelined!` / `impl_pipelined!`), then the
-/// combinations. Each recipe pairs runnable source (the same
+/// combinations. Each section pairs runnable source (the same
 /// files the [test suite] compiles) with a sketch of the
 /// generated surface, so you can read what the macros emit
 /// without running `cargo expand`.

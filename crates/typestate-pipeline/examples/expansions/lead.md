@@ -8,7 +8,7 @@ boolean or in the call site's discipline. The compiler then refuses
 the bad program before it runs.
 
 This guide walks the macros that do that encoding, end to end. Each
-recipe pairs runnable source — the same files the integration test
+section pairs runnable source — the same files the integration test
 suite compiles — with a sketch of the surface the macro emits, so you
 can see what's expanded without running `cargo expand`.
 
@@ -51,4 +51,4 @@ on a carrier. Then the carrier macros (`pipelined!` and
 on. The last section shows the combinations that come up in real
 codebases.
 
-Every recipe heading is anchorable.
+Every section heading is anchorable.

@@ -1,6 +1,6 @@
 ### Factory in pipeline: bag built outside the carrier
 
-The pipeline-arm recipe earlier showed the carrier *as* the
+The earlier pipeline-arm section showed the carrier *as* the
 fluent surface for setting fields — convenient when "build the
 bag" and "advance the carrier" are the same chain. The
 alternative is when they aren't: the bag is assembled
@@ -24,6 +24,6 @@ The two scenarios are complementary:
   origin is outside the carrier's responsibility. The carrier
   receives a finished value and advances from there.
 
-The recipe below demonstrates the latter. Compare it against
-the pipeline-arm recipe in the factory section — same domain,
+The example below demonstrates the latter. Compare it against
+the pipeline-arm example in the factory section — same domain,
 different boundary.

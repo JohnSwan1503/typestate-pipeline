@@ -20,5 +20,5 @@ Concretely, the cases that prompt this:
 - Reordering the type parameters or adding extra phantom data
   that the conventional shape doesn't accommodate.
 
-The minimal recipe below shows the trait plumbing in isolation,
+The minimal example below shows the trait plumbing in isolation,
 applied to a hand-written struct.

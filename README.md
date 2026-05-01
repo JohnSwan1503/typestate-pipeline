@@ -12,8 +12,8 @@ accumulator derive for argument bags. The two macros compose — a
 factory can run inside a pipeline phase, with its setters landing
 directly on the user's carrier.
 
-> **Looking for a feature?** Every macro option has a worked recipe in
-> [`recipes`](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/)
+> **Looking for a feature?** Every macro option has a worked entry in
+> [the guide](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/)
 > on docs.rs — source code paired with a sketch of what the macro emits,
 > backed by the [`tests/expansions`](https://github.com/JohnSwan1503/typestate-pipeline/tree/main/crates/typestate-pipeline/tests/expansions/)
 > suite that locks the surface in.
@@ -231,9 +231,10 @@ Generates `<Name>Factory<F1, F2, …>` with one flag generic per field.
 Setters consume `self` and transition the relevant flag from `No` to
 `Yes`. `finalize()` is callable only when every required flag is `Yes`.
 The headline example above shows the baseline shape; each row below
-points at a worked recipe (source + expansion sketch) on docs.rs:
+points at a worked entry in [the guide](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/)
+(source + expansion sketch) on docs.rs:
 
-|Recipe|What it adds|
+|Option|What it adds|
 |---|---|
 |[Minimal](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/index.html#minimal-every-field-required)|baseline — every field required, no options|
 |[`required` / `optional`](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/index.html#required-vs-optional-setter-naming)|naming change — `field(val)` vs `with_field(val)`|
@@ -285,12 +286,12 @@ impl<'a> Author<'a, Registered> {
 let v = author.tag_version(7).deploy().await?;
 ```
 
-|Recipe|Body shape|
+|Form|Body shape|
 |---|---|
-|[Sync infallible](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/transitions/index.html#sync-infallible)|`fn` returning a non-`Result`|
-|[Sync fallible](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/transitions/index.html#sync-fallible)|`fn` returning `Result<_, E>`|
-|[Async deferred](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/transitions/index.html#async-deferred)|`async fn` (default) — lifts the chain to `InFlight`|
-|[Async breakpoint](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/transitions/index.html#async-breakpoint)|`async fn` + `breakpoint` — forces an `.await?`|
+|[Sync infallible](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/index.html#sync-infallible)|`fn` returning a non-`Result`|
+|[Sync fallible](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/index.html#sync-fallible)|`fn` returning `Result<_, E>`|
+|[Async deferred](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/index.html#async-deferred)|`async fn` (default) — lifts the chain to `InFlight`|
+|[Async breakpoint](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/index.html#async-breakpoint)|`async fn` + `breakpoint` — forces an `.await?`|
 
 Generated transition code uses **no** `unsafe`. Full reference:
 [`#[transitions]` rustdoc](https://docs.rs/typestate-pipeline-macros/latest/typestate_pipeline_macros/attr.transitions.html).
@@ -310,11 +311,8 @@ typestate_pipeline::impl_pipelined!(Author, ctx = Client, error = AuthoringError
 ```
 
 Both also emit a chainable `inspect(|carrier| …)` combinator on Resolved
-and InFlight. See
-[`recipes::pipelined`](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/pipelined/)
-and
-[`recipes::impl_pipelined`](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/impl_pipelined/)
-for worked examples.
+and InFlight. See [the guide](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/)
+for worked examples of both.
 
 ## Safety
 
@@ -468,7 +466,7 @@ crate; depending on the macros crate alone produces unresolved paths.
 
 |Where|What|
 |---|---|
-|[`recipes`](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/recipes/)|every macro option, with source + expansion sketch|
+|[`guide`](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/guide/)|every macro option, with source + expansion sketch|
 |[`tests`](https://docs.rs/typestate-pipeline/latest/typestate_pipeline/tests/)|the integration-test suite rendered as browsable docs|
 |[`#[derive(TypestateFactory)]`](https://docs.rs/typestate-pipeline-macros/latest/typestate_pipeline_macros/derive.TypestateFactory.html)|full attribute reference|
 |[`#[transitions]`](https://docs.rs/typestate-pipeline-macros/latest/typestate_pipeline_macros/attr.transitions.html)|full attribute reference|

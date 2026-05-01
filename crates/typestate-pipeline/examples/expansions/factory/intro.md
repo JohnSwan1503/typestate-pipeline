@@ -8,7 +8,7 @@ set side, and `finalize()` compiles only when every `required`
 flag is `Yes`. There is no runtime check anywhere in that chain
 — the compiler is the only enforcer.
 
-The recipes below cover every attribute the derive understands.
+The sections below cover every attribute the derive understands.
 They sit on three independent axes:
 
 - **Flag transitions.** `required` and `optional` set the entry
@@ -25,5 +25,5 @@ They sit on three independent axes:
   codegen mode, and `#[field(internal)]` for fields locked at
   construction.
 
-Each recipe layers a single feature on top of the previous one,
+Each section layers a single feature on top of the previous one,
 so the diff sketches stay short.

@@ -23,7 +23,7 @@ typestate_pipeline::pipelined!(pub Author, ctx = Hub, error = AppError);
 
 The expansion produces the newtype `Author<'a, S, M = Resolved>`,
 the `Pipelined` impl, the `IntoFuture` lift, and a chainable
-`inspect(|c| …)` combinator on both modes. The two recipes below
+`inspect(|c| …)` combinator on both modes. The two sections below
 cover the baseline and the optional phantom tag that
 distinguishes otherwise-identical carriers at the type level.
 

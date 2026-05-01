@@ -35,4 +35,4 @@ single terminal `.await?`.
 When the next link's *arguments* depend on the resolved value
 of this one — when computing them requires reading the just-
 produced state — the deferred fold doesn't fit. That's the
-next recipe.
+next section.
