@@ -20,8 +20,7 @@ fn surface_check() {
         <ManifestBuilder<No>>::shout_title;
 
     // Getter is still under the field name.
-    let _: for<'a> fn(&'a ManifestBuilder<Yes>) -> &'a String =
-        <ManifestBuilder<Yes>>::title;
+    let _: for<'a> fn(&'a ManifestBuilder<Yes>) -> &'a String = <ManifestBuilder<Yes>>::title;
 
     let _: fn(ManifestBuilder<Yes>) -> Manifest = <ManifestBuilder<Yes>>::finalize;
 }

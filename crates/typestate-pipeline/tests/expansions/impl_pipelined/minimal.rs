@@ -3,9 +3,7 @@
 use core::fmt;
 use std::future::IntoFuture;
 
-use typestate_pipeline::{
-    InFlight, Mode, Pipeline, Pipelined, Resolved, impl_pipelined,
-};
+use typestate_pipeline::{InFlight, Mode, Pipeline, Pipelined, Resolved, impl_pipelined};
 
 #[derive(Debug, Default)]
 pub struct Hub;
@@ -32,14 +30,8 @@ pub struct Phase1;
 fn surface_check() {
     fn check_pipelined<'a>()
     where
-        Author<'a, Phase1, Resolved>: Pipelined<
-                'a,
-                Ctx = Hub,
-                Error = AppError,
-                Tag = (),
-                State = Phase1,
-                Mode = Resolved,
-            >,
+        Author<'a, Phase1, Resolved>:
+            Pipelined<'a, Ctx = Hub, Error = AppError, Tag = (), State = Phase1, Mode = Resolved>,
     {
     }
     let _: fn() = check_pipelined::<'static>;

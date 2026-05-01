@@ -19,8 +19,8 @@ use crate::TypestateFactory;
 use typestate_pipeline_core::No;
 
 use super::{
-    primitives::{Hash, JobId, Name, Namespace, Version},
     Author,
+    primitives::{Hash, JobId, Name, Namespace, Version},
 };
 
 // ---------------------------------------------------------------------------

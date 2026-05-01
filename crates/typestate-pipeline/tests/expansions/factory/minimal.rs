@@ -43,7 +43,7 @@ fn surface_check() {
     where
         UserFactory<F1, F2>: UserFactoryReady,
     {
-        UserFactoryReady::into_finalized(bag)
+        UserFactoryReady::finalize(bag)
     }
     let _: fn(UserFactory<Yes, Yes>) -> User = ready_dispatch::<Yes, Yes>;
 }

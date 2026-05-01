@@ -17,12 +17,9 @@ struct User {
 #[allow(dead_code, unused_variables, clippy::type_complexity)]
 fn surface_check() {
     let _: fn() -> UserFactory<No, No> = UserFactory::new;
-    let _: fn(UserFactory<No, No>, String) -> UserFactory<Yes, No> =
-        <UserFactory<No, No>>::name;
-    let _: fn(UserFactory<No, No>, u32) -> UserFactory<No, Yes> =
-        <UserFactory<No, No>>::with_age;
-    let _: fn(UserFactory<No, No>) -> UserFactory<No, Yes> =
-        <UserFactory<No, No>>::age_default;
+    let _: fn(UserFactory<No, No>, String) -> UserFactory<Yes, No> = <UserFactory<No, No>>::name;
+    let _: fn(UserFactory<No, No>, u32) -> UserFactory<No, Yes> = <UserFactory<No, No>>::with_age;
+    let _: fn(UserFactory<No, No>) -> UserFactory<No, Yes> = <UserFactory<No, No>>::age_default;
 
     // finalize: in safe mode the required slot is pinned to concrete `Yes`
     // and the optional-with-default slot is bounded by `Storage<T>`.

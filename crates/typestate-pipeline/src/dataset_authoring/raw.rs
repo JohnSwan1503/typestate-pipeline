@@ -15,11 +15,11 @@ use serde_json::value::RawValue;
 use crate::TypestateFactory;
 
 use super::{
+    Author,
     error::AuthoringError,
     kinds::{EvmRpc, Kind},
     phase::Registered,
     primitives::{Name, Namespace, NetworkId, Reference, TableName},
-    Author,
 };
 
 // ---------------------------------------------------------------------------
@@ -86,7 +86,7 @@ pub struct RawManifestData {
 // Transitions
 // ---------------------------------------------------------------------------
 
-use crate::{transitions, No, Yes};
+use crate::{No, Yes, transitions};
 
 #[transitions]
 impl<'a> Author<'a, EvmRpcSelected> {
@@ -95,7 +95,9 @@ impl<'a> Author<'a, EvmRpcSelected> {
     /// other flag = `No`.
     #[transition(into = RawManifest<Yes, Yes, No, No, No, No>)]
     pub fn into_builder(state: EvmRpcSelected) -> RawManifest<Yes, Yes, No, No, No, No> {
-        RawManifest::new().namespace(state.namespace).name(state.name)
+        RawManifest::new()
+            .namespace(state.namespace)
+            .name(state.name)
     }
 }
 

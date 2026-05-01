@@ -27,14 +27,8 @@ fn surface_check() {
     // `Pipelined` impl exposes the documented associated types.
     fn check_pipelined<'a>()
     where
-        Author<'a, Phase1, Resolved>: Pipelined<
-                'a,
-                Ctx = Hub,
-                Error = AppError,
-                Tag = (),
-                State = Phase1,
-                Mode = Resolved,
-            >,
+        Author<'a, Phase1, Resolved>:
+            Pipelined<'a, Ctx = Hub, Error = AppError, Tag = (), State = Phase1, Mode = Resolved>,
         Author<'a, Phase1, InFlight>: Pipelined<'a, State = Phase1, Mode = InFlight>,
     {
     }

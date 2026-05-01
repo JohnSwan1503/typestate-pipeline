@@ -20,16 +20,12 @@ fn surface_check() {
     let _: fn(String) -> JobFactory<No, No> = JobFactory::new;
 
     // Setters are emitted only for non-internal fields.
-    let _: fn(JobFactory<No, No>, u16) -> JobFactory<Yes, No> =
-        <JobFactory<No, No>>::parallelism;
-    let _: fn(JobFactory<No, No>, bool) -> JobFactory<No, Yes> =
-        <JobFactory<No, No>>::with_verify;
+    let _: fn(JobFactory<No, No>, u16) -> JobFactory<Yes, No> = <JobFactory<No, No>>::parallelism;
+    let _: fn(JobFactory<No, No>, bool) -> JobFactory<No, Yes> = <JobFactory<No, No>>::with_verify;
 
     // Internal getter is unconditional — callable on every shape.
-    let _: for<'a> fn(&'a JobFactory<No, No>) -> &'a String =
-        <JobFactory<No, No>>::namespace;
-    let _: for<'a> fn(&'a JobFactory<Yes, Yes>) -> &'a String =
-        <JobFactory<Yes, Yes>>::namespace;
+    let _: for<'a> fn(&'a JobFactory<No, No>) -> &'a String = <JobFactory<No, No>>::namespace;
+    let _: for<'a> fn(&'a JobFactory<Yes, Yes>) -> &'a String = <JobFactory<Yes, Yes>>::namespace;
 
     // Finalize requires the two flag generics to be Yes / Satisfiable.
     let _: fn(JobFactory<Yes, Yes>) -> Job = <JobFactory<Yes, Yes>>::finalize;

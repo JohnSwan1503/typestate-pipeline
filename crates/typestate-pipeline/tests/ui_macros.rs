@@ -35,10 +35,7 @@
 //! feature on if you only want the safe-mode coverage in
 //! `tests/safety/factory_no_unsafe.rs`.
 
-#[cfg(not(any(
-    feature = "dataset-authoring-example",
-    feature = "no_unsafe",
-)))]
+#[cfg(not(any(feature = "dataset-authoring-example", feature = "no_unsafe",)))]
 #[test]
 fn ui_compile_failures() {
     let t = trybuild::TestCases::new();

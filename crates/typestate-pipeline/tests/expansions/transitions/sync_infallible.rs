@@ -35,19 +35,13 @@ impl<'a> Author<'a, Versioned> {
 #[allow(dead_code, unused_variables, clippy::type_complexity)]
 fn surface_check() {
     fn check_resolved<'a>(
-        _: fn(
-            Author<'a, Versioned, Resolved>,
-            u16,
-        ) -> Author<'a, JobConfigured, Resolved>,
+        _: fn(Author<'a, Versioned, Resolved>, u16) -> Author<'a, JobConfigured, Resolved>,
     ) {
     }
     check_resolved(<Author<'_, Versioned, Resolved>>::with_parallelism);
 
     fn check_inflight<'a>(
-        _: fn(
-            Author<'a, Versioned, InFlight>,
-            u16,
-        ) -> Author<'a, JobConfigured, InFlight>,
+        _: fn(Author<'a, Versioned, InFlight>, u16) -> Author<'a, JobConfigured, InFlight>,
     ) {
     }
     check_inflight(<Author<'_, Versioned, InFlight>>::with_parallelism);

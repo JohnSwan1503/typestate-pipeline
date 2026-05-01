@@ -38,8 +38,7 @@ fn surface_check() {
     fn check_resolved<'a>(
         _: fn(
             Author<'a, JobConfigured, Resolved>,
-        )
-            -> Result<Author<'a, JobConfigured, Resolved>, AppError>,
+        ) -> Result<Author<'a, JobConfigured, Resolved>, AppError>,
     ) {
     }
     check_resolved(<Author<'_, JobConfigured, Resolved>>::validate);
@@ -47,9 +46,7 @@ fn surface_check() {
     // InFlight arm folds the Result into the pending — no Result at the
     // call site, returns InFlight directly.
     fn check_inflight<'a>(
-        _: fn(
-            Author<'a, JobConfigured, InFlight>,
-        ) -> Author<'a, JobConfigured, InFlight>,
+        _: fn(Author<'a, JobConfigured, InFlight>) -> Author<'a, JobConfigured, InFlight>,
     ) {
     }
     check_inflight(<Author<'_, JobConfigured, InFlight>>::validate);

@@ -50,9 +50,7 @@ fn surface_check() {
         ) -> Author<'a, OrderFactory<No, Yes>, Resolved>,
     ) {
     }
-    check_resolved_optional_setter(
-        <Author<'_, OrderFactory<No, No>, Resolved>>::with_quantity,
-    );
+    check_resolved_optional_setter(<Author<'_, OrderFactory<No, No>, Resolved>>::with_quantity);
 
     fn check_resolved_default_helper<'a>(
         _: fn(
@@ -60,9 +58,7 @@ fn surface_check() {
         ) -> Author<'a, OrderFactory<No, Yes>, Resolved>,
     ) {
     }
-    check_resolved_default_helper(
-        <Author<'_, OrderFactory<No, No>, Resolved>>::quantity_default,
-    );
+    check_resolved_default_helper(<Author<'_, OrderFactory<No, No>, Resolved>>::quantity_default);
 
     // Overridable arm — input bag's flag is Yes, output stays Yes.
     fn check_resolved_override<'a>(
@@ -72,9 +68,7 @@ fn surface_check() {
         ) -> Author<'a, OrderFactory<No, Yes>, Resolved>,
     ) {
     }
-    check_resolved_override(
-        <Author<'_, OrderFactory<No, Yes>, Resolved>>::override_quantity,
-    );
+    check_resolved_override(<Author<'_, OrderFactory<No, Yes>, Resolved>>::override_quantity);
 
     // InFlight-mode setter; same flag transitions, same name.
     fn check_inflight_setter<'a>(

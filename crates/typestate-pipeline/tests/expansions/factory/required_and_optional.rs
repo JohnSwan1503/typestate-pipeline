@@ -16,8 +16,7 @@ fn surface_check() {
     let _: fn() -> UserFactory<No, No> = UserFactory::new;
 
     // Required → bare-named setter.
-    let _: fn(UserFactory<No, No>, String) -> UserFactory<Yes, No> =
-        <UserFactory<No, No>>::name;
+    let _: fn(UserFactory<No, No>, String) -> UserFactory<Yes, No> = <UserFactory<No, No>>::name;
 
     // Optional → `with_<field>` setter; same flag transition (No -> Yes).
     let _: fn(UserFactory<No, No>, String) -> UserFactory<No, Yes> =
