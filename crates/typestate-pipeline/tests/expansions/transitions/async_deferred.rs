@@ -38,22 +38,16 @@ impl<'a> Author<'a, Registered> {
 
 #[allow(dead_code, unused_variables, clippy::type_complexity)]
 fn surface_check() {
-    // Resolved arm: lifts to InFlight (deferred = true is the default).
+    // Resolved arm: lifts to InFlight (lifting is the default for `async fn`).
     fn check_resolved<'a>(
-        _: fn(
-            Author<'a, Registered, Resolved>,
-            u32,
-        ) -> Author<'a, Versioned, InFlight>,
+        _: fn(Author<'a, Registered, Resolved>, u32) -> Author<'a, Versioned, InFlight>,
     ) {
     }
     check_resolved(<Author<'_, Registered, Resolved>>::tag_version);
 
     // InFlight arm: stays InFlight.
     fn check_inflight<'a>(
-        _: fn(
-            Author<'a, Registered, InFlight>,
-            u32,
-        ) -> Author<'a, Versioned, InFlight>,
+        _: fn(Author<'a, Registered, InFlight>, u32) -> Author<'a, Versioned, InFlight>,
     ) {
     }
     check_inflight(<Author<'_, Registered, InFlight>>::tag_version);

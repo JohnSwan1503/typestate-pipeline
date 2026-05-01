@@ -26,11 +26,8 @@ pub struct Versioned;
 
 #[transitions(error = AppError)]
 impl<'a> Author<'a, Registered> {
-    #[transition(into = Versioned, deferred = false)]
-    pub async fn confirm_and_tag(
-        state: Registered,
-        ctx: &Hub,
-    ) -> Result<Versioned, AppError> {
+    #[transition(into = Versioned, breakpoint)]
+    pub async fn confirm_and_tag(state: Registered, ctx: &Hub) -> Result<Versioned, AppError> {
         let _ = (state, ctx);
         Ok(Versioned)
     }
