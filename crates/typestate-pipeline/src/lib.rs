@@ -1374,7 +1374,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/default_helper_without_default.rs")]
+        #[doc = include_str!("../tests/ui/stable/default_helper_without_default.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1387,7 +1387,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/default_with_async.rs")]
+        #[doc = include_str!("../tests/ui/stable/default_with_async.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1399,7 +1399,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/default_with_fallible.rs")]
+        #[doc = include_str!("../tests/ui/stable/default_with_fallible.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1411,7 +1411,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/factory_async_without_setter.rs")]
+        #[doc = include_str!("../tests/ui/stable/factory_async_without_setter.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1423,7 +1423,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/factory_fallible_without_setter.rs")]
+        #[doc = include_str!("../tests/ui/stable/factory_fallible_without_setter.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1436,7 +1436,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/factory_no_unsafe_without_feature.rs")]
+        #[doc = include_str!("../tests/ui/stable/factory_no_unsafe_without_feature.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1448,7 +1448,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/factory_on_enum.rs")]
+        #[doc = include_str!("../tests/ui/stable/factory_on_enum.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1460,7 +1460,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/input_without_setter.rs")]
+        #[doc = include_str!("../tests/ui/stable/input_without_setter.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1473,7 +1473,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/internal_field_no_pipeline_arm.rs")]
+        #[doc = include_str!("../tests/ui/stable/internal_field_no_pipeline_arm.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1486,7 +1486,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/internal_with_setter.rs")]
+        #[doc = include_str!("../tests/ui/stable/internal_with_setter.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1500,7 +1500,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/pipeline_field_is_private.rs")]
+        #[doc = include_str!("../tests/ui/stable/pipeline_field_is_private.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1514,7 +1514,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/ready_trait_rejects_unset_required.rs")]
+        #[doc = include_str!("../tests/ui/stable/ready_trait_rejects_unset_required.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1526,7 +1526,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/transition_without_into.rs")]
+        #[doc = include_str!("../tests/ui/stable/transition_without_into.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1538,7 +1538,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/transitions_breakpoint_on_sync.rs")]
+        #[doc = include_str!("../tests/ui/stable/transitions_breakpoint_on_sync.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1550,7 +1550,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/transitions_breakpoint_with_value.rs")]
+        #[doc = include_str!("../tests/ui/stable/transitions_breakpoint_with_value.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1562,7 +1562,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/transitions_first_param_not_state.rs")]
+        #[doc = include_str!("../tests/ui/stable/transitions_first_param_not_state.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1575,7 +1575,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/transitions_on_trait_impl.rs")]
+        #[doc = include_str!("../tests/ui/stable/transitions_on_trait_impl.rs")]
         /// ```
         ///
         /// # Expected diagnostic
@@ -1588,7 +1588,7 @@ pub mod tests {
         /// # Source
         ///
         /// ```rust,ignore
-        #[doc = include_str!("../tests/ui/transitions_without_pipelined_impl.rs")]
+        #[doc = include_str!("../tests/ui/stable/transitions_without_pipelined_impl.rs")]
         /// ```
         ///
         /// # Expected diagnostic

@@ -1,0 +1,8 @@
+error: TypestateFactory requires a struct
+ --> tests/ui/stable/factory_on_enum.rs:4:1
+  |
+4 | / enum Bag {
+5 | |     A,
+6 | |     B,
+7 | | }
+  | |_^

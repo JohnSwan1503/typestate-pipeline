@@ -1,0 +1,13 @@
+error: `internal` is incompatible with `setter = …`
+  --> tests/ui/nightly/internal_with_setter.rs:10:23
+   |
+10 |     #[field(internal, setter = trim)]
+   |                       ^^^^^^
+   |
+note: `internal` declared here
+  --> tests/ui/nightly/internal_with_setter.rs:10:13
+   |
+10 |     #[field(internal, setter = trim)]
+   |             ^^^^^^^^
+   = note: internal fields have no setter — they're set positionally on `new(…)`
+   = help: remove `internal` to expose a setter, or remove `setter = …`

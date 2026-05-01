@@ -1,0 +1,5 @@
+error: `no_unsafe` requires the `no_unsafe` feature on the `typestate-pipeline` façade crate. Add `typestate-pipeline = { …, features = ["no_unsafe"] }` to your Cargo.toml.
+ --> tests/ui/stable/factory_no_unsafe_without_feature.rs:9:11
+  |
+9 | #[factory(no_unsafe)]
+  |           ^^^^^^^^^

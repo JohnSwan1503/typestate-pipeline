@@ -1,0 +1,30 @@
+error[E0599]: the method `finalize` exists for struct `ProfileFactory<Yes>`, but its trait bounds were not satisfied
+  --> tests/ui/stable/ready_trait_rejects_unset_required.rs:18:17
+   |
+ 7 | #[derive(TypestateFactory)]
+   |          ---------------- method `finalize` not found for this struct because it doesn't satisfy `ProfileFactory<Yes>: ProfileFactoryReady`
+...
+18 |     let _ = bag.finalize();
+   |                 ^^^^^^^^ method cannot be called on `ProfileFactory<Yes>` due to unsatisfied trait bounds
+   |
+  ::: $WORKSPACE/crates/typestate-pipeline-core/src/flag.rs
+   |
+   | pub enum No {}
+   | ----------- doesn't satisfy `No: Satisfied`
+   |
+note: trait bound `No: Satisfied` was not satisfied
+  --> tests/ui/stable/ready_trait_rejects_unset_required.rs:7:10
+   |
+ 7 | #[derive(TypestateFactory)]
+   |          ^^^^^^^^^^^^^^^^
+   |          |
+   |          unsatisfied bound `No: Satisfied` introduced here
+   |          type parameter would need to implement `ProfileFactoryReady`
+   = help: consider manually implementing the trait to avoid undesired bounds
+   = help: items from traits can only be used if the trait is implemented and in scope
+note: `ProfileFactoryReady` defines an item `finalize`, perhaps you need to implement it
+  --> tests/ui/stable/ready_trait_rejects_unset_required.rs:7:10
+   |
+ 7 | #[derive(TypestateFactory)]
+   |          ^^^^^^^^^^^^^^^^
+   = note: this error originates in the derive macro `TypestateFactory` (in Nightly builds, run with -Z macro-backtrace for more info)

@@ -26,6 +26,9 @@ thiserror = { version = "1", optional = true }
 [dev-dependencies]
 tokio = { workspace = true }
 trybuild = { workspace = true }
+# `rustversion` gates the trybuild test fns by toolchain channel — see
+# `tests/ui_macros.rs` for the stable/nightly fixture split.
+rustversion = "1"
 
 [features]
 # No features enabled by default.

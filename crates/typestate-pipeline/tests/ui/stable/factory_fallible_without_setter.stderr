@@ -1,0 +1,6 @@
+error: `fallible` is only valid alongside `setter = <fn>`
+       = help: `fallible` describes the setter transformer's return type — add `setter = <fn>` (the fn returning `Result<FieldType, Error>`) or remove `fallible`
+  --> tests/ui/stable/factory_fallible_without_setter.rs:15:23
+   |
+15 |     #[field(required, fallible)]
+   |                       ^^^^^^^^

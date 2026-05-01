@@ -97,6 +97,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "rustversion"
+version = "1.0.22"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b39cdef0fa800fc44525c84ccb54a029961a8215f9619753635a9c0d2538d46d"
+
+[[package]]
 name = "serde"
 version = "1.0.228"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -285,6 +291,7 @@ dependencies = [
 name = "typestate-pipeline"
 version = "0.1.0"
 dependencies = [
+ "rustversion",
  "serde",
  "serde_json",
  "thiserror",

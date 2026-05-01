@@ -1,6 +1,0 @@
-error: `into = <Type>` is required in `#[transition(...)]`
-       = help: declare the destination state, e.g. `#[transition(into = NextState)]`
-  --> tests/ui/transition_without_into.rs:11:5
-   |
-11 |     #[transition()]
-   |     ^

@@ -1,0 +1,13 @@
+error: `default` is incompatible with `async_fn`
+ --> tests/ui/nightly/default_with_async.rs:5:13
+  |
+5 |     #[field(default = 0u32, setter = parse, async_fn)]
+  |             ^^^^^^^
+  |
+note: `async_fn` declared here
+ --> tests/ui/nightly/default_with_async.rs:5:45
+  |
+5 |     #[field(default = 0u32, setter = parse, async_fn)]
+  |                                             ^^^^^^^^
+  = note: declared defaults must be synchronous — `async fn` setters return a future, but a default expression is evaluated eagerly
+  = help: call the setter directly with your value if it needs async work, instead of declaring a default

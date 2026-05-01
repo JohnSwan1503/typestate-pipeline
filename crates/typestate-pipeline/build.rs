@@ -1,4 +1,4 @@
-//! Tokenizes `tests/ui/*.stderr` fixtures into HTML for embedding in rustdoc.
+//! Tokenizes `tests/ui/stable/*.stderr` fixtures into HTML for embedding in rustdoc.
 //!
 //! Output is written to `$OUT_DIR/diagnostics/<name>.html`. Source files
 //! reference rendered fixtures with:
@@ -6,6 +6,12 @@
 //! ```ignore
 //! #[doc = include_str!(concat!(env!("OUT_DIR"), "/diagnostics/<name>.html"))]
 //! ```
+//!
+//! Only the stable-channel fixtures are rendered into the docs surface — they
+//! match what a docs.rs reader's own `cargo build` will produce (docs.rs
+//! itself builds on stable). The parallel `tests/ui/nightly/*.stderr`
+//! fixtures pin diagnostics on nightly for CI coverage but are not embedded
+//! into rustdoc.
 //!
 //! The companion stylesheet lives at `docs/diagnostics.html` and is injected
 //! into the rustdoc `<head>` via `--html-in-header`.
@@ -18,7 +24,7 @@ use std::path::PathBuf;
 fn main() {
     let manifest_dir =
         PathBuf::from(env::var_os("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"));
-    let ui_dir = manifest_dir.join("tests").join("ui");
+    let ui_dir = manifest_dir.join("tests").join("ui").join("stable");
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").expect("OUT_DIR")).join("diagnostics");
     fs::create_dir_all(&out_dir).expect("create OUT_DIR/diagnostics");
 

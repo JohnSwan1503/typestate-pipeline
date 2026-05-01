@@ -1,0 +1,6 @@
+error: #[transitions] can only be applied to inherent impl blocks
+       = help: move these methods to an inherent `impl <Carrier>` block; the macro expands every `#[transition]` into a Resolved + InFlight method pair on the carrier and that requires inherent self
+  --> tests/ui/stable/transitions_on_trait_impl.rs:14:10
+   |
+14 | impl<'a> Noop for Author<'a, A> {
+   |          ^^^^

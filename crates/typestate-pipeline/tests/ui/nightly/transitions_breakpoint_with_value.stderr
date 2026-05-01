@@ -1,0 +1,5 @@
+error: `breakpoint` is a flag, not a key=value (write `breakpoint`, not `breakpoint = …`)
+  --> tests/ui/nightly/transitions_breakpoint_with_value.rs:12:28
+   |
+12 |     #[transition(into = B, breakpoint = true)]
+   |                            ^^^^^^^^^^
