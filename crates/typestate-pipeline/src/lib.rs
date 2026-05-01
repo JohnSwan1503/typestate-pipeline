@@ -1,5 +1,5 @@
 #![cfg_attr(docsrs, feature(doc_cfg, doc_notable_trait))]
-#![doc = include_str!("../../../README.md")]
+#![doc = include_str!("../README.md")]
 //!
 //! ---
 //!
