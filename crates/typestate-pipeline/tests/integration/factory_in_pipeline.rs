@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "factory_in_pipeline/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "factory_in_pipeline/tests/full_chain_bag_into_pipeline.rs"]
 pub mod full_chain_bag_into_pipeline;

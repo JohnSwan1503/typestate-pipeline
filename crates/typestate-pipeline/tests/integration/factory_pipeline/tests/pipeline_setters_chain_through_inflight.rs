@@ -1,9 +1,5 @@
-#[path = "shared.rs"]
-mod shared;
-
+use super::{Author, Server, empty_inflight_bag};
 use typestate_pipeline::Resolved;
-
-use shared::{Author, Server, empty_inflight_bag};
 
 pub async fn main() {
     let server = Server::default();

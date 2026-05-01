@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{BadInput, UserProfileFactory};
+use super::{BadInput, UserProfileFactory};
 
 pub async fn main() {
     let bag = UserProfileFactory::new().name("Bob".to_owned()).await;

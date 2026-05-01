@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Server, SubmitError, User, drafting};
+use super::{Server, SubmitError, User, drafting};
 
 pub fn main() {
     let server = Server::default();

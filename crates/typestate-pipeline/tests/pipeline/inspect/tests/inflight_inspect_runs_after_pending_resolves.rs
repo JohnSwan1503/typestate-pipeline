@@ -1,11 +1,8 @@
-#[path = "shared.rs"]
-mod shared;
-
 use std::sync::{Arc, Mutex};
 
 use typestate_pipeline::Resolved;
 
-use shared::{Author, Hub, Tagged, drafted};
+use super::{Author, Hub, Tagged, drafted};
 
 pub async fn main() {
     // Set up a pipeline that's about to enter the chain. `tag()` is

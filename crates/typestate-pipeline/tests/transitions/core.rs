@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "core/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "core/tests/full_chain_with_resolved_breakpoint_in_middle.rs"]
 pub mod full_chain_with_resolved_breakpoint_in_middle;

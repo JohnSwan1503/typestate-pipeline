@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "ready_trait/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "ready_trait/tests/ready_trait_is_implemented_when_required_flags_yes.rs"]
 pub mod ready_trait_is_implemented_when_required_flags_yes;

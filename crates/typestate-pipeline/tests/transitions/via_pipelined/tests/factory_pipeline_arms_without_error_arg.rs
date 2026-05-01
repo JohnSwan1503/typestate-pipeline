@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Hub, empty_profile};
+use super::{Hub, empty_profile};
 
 pub async fn main() {
     // Round-trip through the carrier: open a Resolved Author with an

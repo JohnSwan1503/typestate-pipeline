@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use std::panic::{self, AssertUnwindSafe};
 
-use shared::{Counted, alive, setup};
+use super::{Counted, alive, setup};
 
 use typestate_pipeline::TypestateFactory;
 

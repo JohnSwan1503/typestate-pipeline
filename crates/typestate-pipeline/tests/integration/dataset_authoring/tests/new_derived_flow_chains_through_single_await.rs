@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Client, TableName, Version, nm, ns};
+use super::{Client, TableName, Version, nm, ns};
 
 pub async fn main() {
     let client = Client::default();

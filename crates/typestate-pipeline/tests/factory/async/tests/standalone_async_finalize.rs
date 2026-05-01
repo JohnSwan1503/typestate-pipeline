@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{ConfirmedUser, UserFactory};
+use super::{ConfirmedUser, UserFactory};
 
 pub async fn main() {
     let bag = UserFactory::new().name("Carol".to_owned());

@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "input_type/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "input_type/tests/setter_takes_input_type_not_field_type.rs"]
 pub mod setter_takes_input_type_not_field_type;

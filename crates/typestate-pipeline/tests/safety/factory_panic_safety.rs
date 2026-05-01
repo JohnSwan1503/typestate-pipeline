@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "factory_panic_safety/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "factory_panic_safety/tests/panic_in_drop_still_drops_subsequent_fields.rs"]
 pub mod panic_in_drop_still_drops_subsequent_fields;

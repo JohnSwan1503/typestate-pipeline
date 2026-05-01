@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Hub, carrier};
+use super::{Hub, carrier};
 
 pub fn main() {
     // After setting `parallelism` on the carrier, the carrier-arm

@@ -1,11 +1,6 @@
-#[path = "error.rs"]
-pub mod error;
-
-#[path = "bags.rs"]
 pub mod bags;
-
-#[path = "carrier.rs"]
 pub mod carrier;
+pub mod error;
 
 pub use bags::{
     ConfirmedUser, User, UserFactory, UserProfile, UserProfileFactory, confirm_user,

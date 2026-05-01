@@ -1,14 +1,7 @@
-#[path = "error.rs"]
-pub mod error;
-
-#[path = "domain.rs"]
-pub mod domain;
-
-#[path = "phases.rs"]
-pub mod phases;
-
-#[path = "carrier.rs"]
 pub mod carrier;
+pub mod domain;
+pub mod error;
+pub mod phases;
 
 pub use carrier::{Author, drafting};
 pub use domain::{Server, User, UserFactory};

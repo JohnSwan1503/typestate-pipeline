@@ -2,7 +2,9 @@
 #![allow(unused)]
 
 #[path = "dataset_authoring/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "dataset_authoring/tests/new_evm_rpc_flow_terminates_at_deployed.rs"]
 pub mod new_evm_rpc_flow_terminates_at_deployed;

@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::ProfileFactory;
+use super::ProfileFactory;
 
 pub fn main() {
     // The `default = None` expression is `Option<String>`, NOT `String`.

@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Counted, PendOnce, Reject, alive, poll_once, serialize};
+use super::{Counted, PendOnce, Reject, alive, poll_once, serialize};
 use typestate_pipeline::TypestateFactory;
 
 #[derive(TypestateFactory)]

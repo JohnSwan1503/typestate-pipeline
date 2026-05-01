@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{BadInput, Hub, empty_order};
+use super::{BadInput, Hub, empty_order};
 
 pub async fn main() {
     let hub = Hub;

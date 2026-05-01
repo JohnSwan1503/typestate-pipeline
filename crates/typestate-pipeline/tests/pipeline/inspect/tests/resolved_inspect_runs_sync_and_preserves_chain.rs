@@ -1,11 +1,8 @@
-#[path = "shared.rs"]
-mod shared;
-
 use std::cell::RefCell;
 
 use typestate_pipeline::Resolved;
 
-use shared::{Author, Drafted, Hub, drafted};
+use super::{Author, Drafted, Hub, drafted};
 
 pub async fn main() {
     let hub = Hub::default();

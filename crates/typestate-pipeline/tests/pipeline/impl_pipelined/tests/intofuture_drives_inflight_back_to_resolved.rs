@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use typestate_pipeline::{BoxFuture, Resolved};
 
-use shared::{Author, Client, DummyError, Started, started_inflight};
+use super::{Author, Client, DummyError, Started, started_inflight};
 
 pub async fn main() {
     let client = Client;

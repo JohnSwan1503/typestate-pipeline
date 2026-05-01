@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Counted, Reject, alive, serialize};
+use super::{Counted, Reject, alive, serialize};
 use typestate_pipeline::TypestateFactory;
 
 fn sync_pass_or_reject(val: Counted) -> Result<Counted, Reject> {

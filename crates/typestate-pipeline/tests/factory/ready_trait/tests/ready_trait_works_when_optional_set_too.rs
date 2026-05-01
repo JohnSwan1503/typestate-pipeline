@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{ProfileFactory, generic_finalize};
+use super::{ProfileFactory, generic_finalize};
 
 pub fn main() {
     let bag = ProfileFactory::new()

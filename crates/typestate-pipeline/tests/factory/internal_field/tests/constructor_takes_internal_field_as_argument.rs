@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::JobFactory;
+use super::JobFactory;
 
 pub fn main() {
     // No `.namespace(…)` chain — the field is supplied to `new(…)`.

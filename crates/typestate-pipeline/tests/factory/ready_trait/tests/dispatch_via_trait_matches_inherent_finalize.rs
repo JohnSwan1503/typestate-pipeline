@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{ProfileFactory, ProfileFactoryReady};
+use super::{ProfileFactory, ProfileFactoryReady};
 
 pub fn main() {
     // The trait method must produce the exact same value as the

@@ -1,9 +1,5 @@
-#[path = "shared.rs"]
-mod shared;
-
+use super::{Author, Hub, Tagged, drafted};
 use typestate_pipeline::Resolved;
-
-use shared::{Author, Hub, Tagged, drafted};
 
 pub async fn main() {
     // The combinator returns `Self` unchanged, so a Resolved-mode

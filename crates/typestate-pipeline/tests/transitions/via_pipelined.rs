@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "via_pipelined/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "via_pipelined/tests/transitions_chain_without_error_arg.rs"]
 pub mod transitions_chain_without_error_arg;

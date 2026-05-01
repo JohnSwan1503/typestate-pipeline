@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{AppError, Hub, drafted};
+use super::{AppError, Hub, drafted};
 
 pub async fn main() {
     let hub = Hub;

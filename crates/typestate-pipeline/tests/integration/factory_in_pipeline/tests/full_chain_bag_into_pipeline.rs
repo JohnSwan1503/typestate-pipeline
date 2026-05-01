@@ -1,9 +1,5 @@
-#[path = "shared.rs"]
-mod shared;
-
+use super::{Author, Confirmed, Server, User, drafting};
 use typestate_pipeline::Resolved;
-
-use shared::{Author, Confirmed, Server, User, drafting};
 
 pub async fn main() {
     let server = Server::default();

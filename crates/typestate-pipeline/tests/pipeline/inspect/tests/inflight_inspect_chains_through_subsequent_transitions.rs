@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use std::sync::{Arc, Mutex};
 
-use shared::{Hub, drafted};
+use super::{Hub, drafted};
 
 pub async fn main() {
     // The InFlight `inspect` returns InFlight, so the chain should

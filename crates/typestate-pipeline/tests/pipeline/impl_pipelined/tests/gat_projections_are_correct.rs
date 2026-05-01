@@ -1,9 +1,5 @@
-#[path = "shared.rs"]
-mod shared;
-
+use super::{Author, Finished, Started};
 use typestate_pipeline::{InFlight, Pipelined, Resolved};
-
-use shared::{Author, Finished, Started};
 
 pub fn main() {
     // Resolved<NS> projects to NS-stated Resolved-mode carrier.

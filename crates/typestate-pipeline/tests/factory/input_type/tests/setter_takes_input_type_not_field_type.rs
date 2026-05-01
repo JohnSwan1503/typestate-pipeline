@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::ProfileFactory;
+use super::ProfileFactory;
 
 pub fn main() {
     // The setter accepts a `String`, not an `Option<String>`. The

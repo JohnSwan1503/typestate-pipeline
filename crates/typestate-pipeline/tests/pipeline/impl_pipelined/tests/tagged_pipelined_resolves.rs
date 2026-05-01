@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use typestate_pipeline::{Pipelined, Resolved};
 
-use shared::{MyTag, Started, Tagged};
+use super::{MyTag, Started, Tagged};
 
 pub fn main() {
     fn assert<'a, T>()

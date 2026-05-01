@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::ValidationError;
+use super::ValidationError;
 use typestate_pipeline::TypestateFactory;
 
 #[derive(TypestateFactory)]

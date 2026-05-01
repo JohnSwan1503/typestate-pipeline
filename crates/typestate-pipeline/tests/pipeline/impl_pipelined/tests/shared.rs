@@ -1,11 +1,6 @@
-#[path = "error.rs"]
-pub mod error;
-
-#[path = "state_types.rs"]
-pub mod state_types;
-
-#[path = "carriers.rs"]
 pub mod carriers;
+pub mod error;
+pub mod state_types;
 
 pub use carriers::{Author, Client, Tagged, started_inflight};
 pub use error::DummyError;

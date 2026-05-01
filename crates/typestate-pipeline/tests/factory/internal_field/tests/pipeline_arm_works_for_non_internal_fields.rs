@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use typestate_pipeline::Resolved;
 
-use shared::{Author, Hub, carrier};
+use super::{Author, Hub, carrier};
 
 pub fn main() {
     // Open the pipeline carrier with the internal field already

@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Server, empty_bag};
+use super::{Server, empty_bag};
 
 pub async fn main() {
     let server = Server::default();

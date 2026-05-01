@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Hub, drafted};
+use super::{Hub, drafted};
 
 pub async fn main() {
     let hub = Hub;

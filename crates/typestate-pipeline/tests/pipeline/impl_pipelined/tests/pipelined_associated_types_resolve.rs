@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use typestate_pipeline::{InFlight, Pipelined, Resolved};
 
-use shared::{Author, Client, DummyError, Started};
+use super::{Author, Client, DummyError, Started};
 
 pub fn main() {
     fn assert_pipelined<'a, T>()

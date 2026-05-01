@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use typestate_pipeline::Resolved;
 
-use shared::{Author, Client, JobConfigured};
+use super::{Author, Client, JobConfigured};
 
 pub async fn main() {
     let client = Client::default();

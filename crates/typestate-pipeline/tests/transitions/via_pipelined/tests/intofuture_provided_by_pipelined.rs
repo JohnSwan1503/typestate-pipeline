@@ -1,11 +1,7 @@
-#[path = "shared.rs"]
-mod shared;
-
 use std::future::IntoFuture;
 
+use super::{AppError, Author, Drafted, Hub, drafted_inflight};
 use typestate_pipeline::Resolved;
-
-use shared::{AppError, Author, Drafted, Hub, drafted_inflight};
 
 pub async fn main() {
     let hub = Hub;

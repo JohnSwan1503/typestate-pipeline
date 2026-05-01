@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::ProfileFactory;
+use super::ProfileFactory;
 
 pub fn main() {
     // Same end-state as `worker_default()` but reached via the bag's

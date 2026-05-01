@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "inspect/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "inspect/tests/resolved_inspect_runs_sync_and_preserves_chain.rs"]
 pub mod resolved_inspect_runs_sync_and_preserves_chain;

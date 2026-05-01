@@ -1,7 +1,9 @@
 #![allow(unused)]
 
 #[path = "core/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "core/tests/build_in_order.rs"]
 pub mod build_in_order;

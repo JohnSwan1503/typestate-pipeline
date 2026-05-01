@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Hub, carrier};
+use super::{Hub, carrier};
 
 pub fn main() {
     // The carrier-arm getter for an internal field is callable on

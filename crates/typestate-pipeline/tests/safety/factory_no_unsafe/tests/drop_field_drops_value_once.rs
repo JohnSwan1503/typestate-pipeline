@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Counted, alive, serialize};
+use super::{Counted, alive, serialize};
 use typestate_pipeline::TypestateFactory;
 
 #[derive(TypestateFactory)]

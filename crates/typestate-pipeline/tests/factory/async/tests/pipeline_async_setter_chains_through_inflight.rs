@@ -1,9 +1,5 @@
-#[path = "shared.rs"]
-mod shared;
-
+use super::{Author, Hub, OrderFactory, empty_order};
 use typestate_pipeline::Resolved;
-
-use shared::{Author, Hub, OrderFactory, empty_order};
 
 pub async fn main() {
     let hub = Hub;

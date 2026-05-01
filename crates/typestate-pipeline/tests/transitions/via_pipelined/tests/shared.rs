@@ -1,11 +1,6 @@
-#[path = "error.rs"]
-pub mod error;
-
-#[path = "phases.rs"]
-pub mod phases;
-
-#[path = "carrier.rs"]
 pub mod carrier;
+pub mod error;
+pub mod phases;
 
 pub use carrier::{Author, Hub, Profile, ProfileFactory, drafted, drafted_inflight, empty_profile};
 pub use error::AppError;

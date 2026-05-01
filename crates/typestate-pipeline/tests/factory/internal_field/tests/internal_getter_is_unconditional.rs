@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::JobFactory;
+use super::JobFactory;
 
 pub fn main() {
     // Bag in the all-No-flags state still has `namespace()` callable —

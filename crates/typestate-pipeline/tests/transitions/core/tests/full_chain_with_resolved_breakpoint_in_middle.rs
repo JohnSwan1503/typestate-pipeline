@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Author, Client, Deployed};
+use super::{Author, Client, Deployed};
 
 pub async fn main() {
     let client = Client::default();

@@ -1,11 +1,6 @@
-#[path = "error.rs"]
-pub mod error;
-
-#[path = "domain.rs"]
-pub mod domain;
-
-#[path = "carrier.rs"]
 pub mod carrier;
+pub mod domain;
+pub mod error;
 
 pub use carrier::{
     Author, DatasetData, DatasetDataFactory, Deployed, empty_bag, empty_inflight_bag, trim_label,

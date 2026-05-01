@@ -1,9 +1,6 @@
-#[path = "shared.rs"]
-mod shared;
-
 use typestate_pipeline::No;
 
-use shared::JobFactory;
+use super::JobFactory;
 
 pub fn main() {
     // The bag's type signature is `JobFactory<ParallelismFlag, VerifyFlag>` —

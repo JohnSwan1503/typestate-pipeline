@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::JobFactory;
+use super::JobFactory;
 
 pub fn main() {
     // Internal fields are read directly out of plain-`T` storage by

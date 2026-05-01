@@ -2,7 +2,9 @@
 #![allow(unused)]
 
 #[path = "factory_no_unsafe/tests/shared.rs"]
-pub mod shared;
+mod shared;
+
+pub(self) use shared::*;
 
 #[path = "factory_no_unsafe/tests/build_in_order.rs"]
 pub mod build_in_order;

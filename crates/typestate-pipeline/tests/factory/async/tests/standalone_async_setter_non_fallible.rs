@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::UserProfileFactory;
+use super::UserProfileFactory;
 
 pub async fn main() {
     let bag = UserProfileFactory::new()

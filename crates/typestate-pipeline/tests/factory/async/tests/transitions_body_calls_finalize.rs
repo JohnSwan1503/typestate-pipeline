@@ -1,7 +1,4 @@
-#[path = "shared.rs"]
-mod shared;
-
-use shared::{Hub, empty_order};
+use super::{Hub, empty_order};
 
 pub async fn main() {
     let hub = Hub;

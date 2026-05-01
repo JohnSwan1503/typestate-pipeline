@@ -1,10 +1,9 @@
 #![allow(unused)]
 
-#[path = "factory_no_leak/tests/error.rs"]
-pub mod error;
+#[path = "factory_no_leak/tests/shared.rs"]
+mod shared;
 
-#[path = "factory_no_leak/tests/bookkeeping.rs"]
-pub mod bookkeeping;
+pub(self) use shared::*;
 
 #[path = "factory_no_leak/tests/fallible_setter_failure_drops_other_set_fields.rs"]
 pub mod fallible_setter_failure_drops_other_set_fields;
