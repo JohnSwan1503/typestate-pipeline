@@ -9,7 +9,7 @@ expression's value to the field slot.
 
 **Failure mode this guards.** This is the symmetric "default at
 finalize" path. Together with
-[`default_helper_bypasses_transformer`](../default_helper_bypasses_transformer/index.html),
+[`default_helper_bypasses_transformer`](#default_helper_bypasses_transformer),
 the two tests cover both default routes:
 
 - `<field>_default()` helper — explicit user call.

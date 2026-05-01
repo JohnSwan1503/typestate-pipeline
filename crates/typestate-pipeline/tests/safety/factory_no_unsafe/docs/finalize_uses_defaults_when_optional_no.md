@@ -5,7 +5,7 @@ of which were explicitly set, finalizes with each field equal to its
 declared default expression's value.
 
 **Failure mode this guards.** Same shape as
-[`finalize_uses_default_when_optional_unset`](../finalize_uses_default_when_optional_unset/index.html)
+[`finalize_uses_default_when_optional_unset`](#finalize_uses_default_when_optional_unset)
 but exercises *multiple* default branches at once, plus a non-trivial
 default expression (`String::to_owned()` produces a heap-allocated
 default value). Catches regressions where the dispatch worked for one

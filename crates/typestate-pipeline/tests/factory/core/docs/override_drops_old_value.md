@@ -7,7 +7,7 @@ keeping the flag at `Yes`.
 **Failure mode this guards.** The override codegen has to read the
 old value into a stack temp before the new bag is constructed
 (panic-safe ordering — see
-[`tests::safety::factory_panic_safety::panic_in_old_value_drop_during_override_drops_other_fields`](../../safety/factory_panic_safety/panic_in_old_value_drop_during_override_drops_other_fields/index.html)).
+[`tests::safety::factory_panic_safety::panic_in_old_value_drop_during_override_drops_other_fields`](../../safety/factory_panic_safety/index.html#panic_in_old_value_drop_during_override_drops_other_fields)).
 That ordering also has to result in a single drop. Two regressions:
 
 - Old value leaked (no drop run).

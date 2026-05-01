@@ -5,7 +5,7 @@ finalizing, releases all stored values via the generated `Drop`
 impl.
 
 **Failure mode this guards.** Symmetric to
-[`partial_bag_dropped_drops_only_set_fields`](../partial_bag_dropped_drops_only_set_fields/index.html).
+[`partial_bag_dropped_drops_only_set_fields`](#partial_bag_dropped_drops_only_set_fields).
 Together they pin: zero `Yes`-flagged fields → zero destructors,
 N `Yes`-flagged fields → N destructors. The fully-set case is the
 control: if the loop terminates early or skips the last field, the

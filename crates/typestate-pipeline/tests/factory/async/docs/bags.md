@@ -12,6 +12,6 @@ The non-pipeline-arm `TypestateFactory` derives:
 
 These bags don't reference the carrier — they exist for the
 standalone async tests. The Pipeline-integrated bag (`Order`)
-lives next to its carrier in [`carrier`](../carrier/index.html)
+lives next to its carrier in [`carrier`](#carrier)
 because the derive's pipeline arm reaches into the carrier's
 internals.

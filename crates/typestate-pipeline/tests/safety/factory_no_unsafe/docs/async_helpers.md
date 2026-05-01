@@ -1,7 +1,7 @@
 ### Async test helpers
 
 Used by the async-setter cancellation test
-([`async_setter_dropped_mid_await_drops_other_set_fields`](../async_setter_dropped_mid_await_drops_other_set_fields/index.html)).
+([`async_setter_dropped_mid_await_drops_other_set_fields`](#async_setter_dropped_mid_await_drops_other_set_fields)).
 
 `PendOnce` is a `Future` that returns `Pending` once and then
 `Ready` thereafter. Predictable suspension lets the test observe

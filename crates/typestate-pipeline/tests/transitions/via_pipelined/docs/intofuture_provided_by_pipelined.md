@@ -5,7 +5,7 @@ InFlight-mode carrier. Awaiting an InFlight carrier yields the
 corresponding Resolved-mode carrier with the awaited state.
 
 **Failure mode this guards.** This is the sibling regression test to
-[`tests::transitions::core::intofuture_resolves_inflight_back_to_resolved`](../../core/intofuture_resolves_inflight_back_to_resolved/index.html),
+[`tests::transitions::core::intofuture_resolves_inflight_back_to_resolved`](../core/index.html#intofuture_resolves_inflight_back_to_resolved),
 but exercised against a hand-built InFlight carrier (rather than one
 produced by an async-deferred transition). It pins that the
 `IntoFuture` impl works regardless of how the InFlight carrier was

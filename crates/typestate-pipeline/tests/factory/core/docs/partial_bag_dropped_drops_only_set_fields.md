@@ -5,7 +5,7 @@ set ones (calling each value's `T::drop`) and skips the unset ones
 (leaving their `MaybeUninit::uninit()` slots untouched).
 
 **Failure mode this guards.** Same shape as
-[`empty_bag_dropped_does_not_touch_uninit_fields`](../empty_bag_dropped_does_not_touch_uninit_fields/index.html)
+[`empty_bag_dropped_does_not_touch_uninit_fields`](#empty_bag_dropped_does_not_touch_uninit_fields)
 but exercises both branches of the `IS_SET`-guarded loop. If the
 flag-check were inverted, the test would either leak (set fields
 not dropped) or UB (unset fields dropped).

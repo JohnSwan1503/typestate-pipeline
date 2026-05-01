@@ -15,7 +15,7 @@ drop it on the failure path).
   `Err`.
 
 The leak-on-failure side of the contract is pinned in
-[`tests::safety::factory_no_leak::fallible_setter_failure_drops_other_set_fields`](../../../safety/factory_no_leak/index.html);
+[`tests::safety::factory_no_leak::fallible_setter_failure_drops_other_set_fields`](../../safety/factory_no_leak/index.html#fallible_setter_failure_drops_other_set_fields);
 this test only confirms the error variant + value propagates.
 
 **Setup.** `ValidatedUser` whose setter rejects empty input.

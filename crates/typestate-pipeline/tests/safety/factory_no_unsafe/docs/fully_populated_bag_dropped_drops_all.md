@@ -5,7 +5,7 @@ finalizing, releases all stored values via auto-Drop on the
 sister-struct's `T` slots.
 
 **Failure mode this guards.** This is the symmetric case to
-[`partial_bag_dropped_drops_only_set_fields`](../partial_bag_dropped_drops_only_set_fields/index.html).
+[`partial_bag_dropped_drops_only_set_fields`](#partial_bag_dropped_drops_only_set_fields).
 Together they pin: zero `Yes`-flagged fields → zero destructors,
 N `Yes`-flagged fields → N destructors.
 

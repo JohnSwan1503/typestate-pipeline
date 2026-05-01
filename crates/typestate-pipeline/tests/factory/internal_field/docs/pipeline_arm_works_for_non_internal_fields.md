@@ -14,7 +14,7 @@ non-internal fields must still get their arms.
 
 The corresponding negative — that the internal field does *not*
 get a pipeline arm — is pinned in
-[`tests::ui::internal_field_no_pipeline_arm`](../../../ui/internal_field_no_pipeline_arm/index.html).
+[`tests::ui::internal_field_no_pipeline_arm`](../../ui/internal_field_no_pipeline_arm/index.html).
 
 **Setup.** Open a `Resolved` carrier with the internal field
 populated (`carrier(&hub, "eth")`). Drive the user-facing fields

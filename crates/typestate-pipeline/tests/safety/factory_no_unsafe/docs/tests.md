@@ -12,7 +12,7 @@ The whole suite is gated behind `#[cfg(feature = "no_unsafe")]`. When
 the feature is off, the `#[factory(no_unsafe)]` attribute is rejected
 at expansion time so this file would fail to compile. The
 corresponding negative trybuild case lives in
-[`tests/ui/factory_no_unsafe_without_feature.rs`](../ui/factory_no_unsafe_without_feature/index.html).
+[`tests::ui::factory_no_unsafe_without_feature`](../../ui/factory_no_unsafe_without_feature/index.html).
 
 The point of duplicating the unsafe-mode suite verbatim under the safe
 codegen path is to prove that *every* user-visible property the

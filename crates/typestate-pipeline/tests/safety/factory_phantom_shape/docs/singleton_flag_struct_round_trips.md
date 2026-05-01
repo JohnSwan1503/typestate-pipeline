@@ -11,7 +11,7 @@ would emit `PhantomData<(F)>`, which Rust parses as `PhantomData<F>`
 check still works for either spelling, so this test is a *direct*
 proof: the bag finalizes into the expected value, end of story. The
 auto-trait test
-([`one_flag_bag_is_send_and_sync_when_field_is`](../one_flag_bag_is_send_and_sync_when_field_is/index.html))
+([`one_flag_bag_is_send_and_sync_when_field_is`](#one_flag_bag_is_send_and_sync_when_field_is))
 does the secondary check that the singleton tuple is still acting like
 a tuple at the auto-trait level.
 
