@@ -66,9 +66,18 @@ jobs:
 
       - name: Publish typestate-pipeline-core
         id: publish-core
-        run: cargo publish -p typestate-pipeline-core --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          crate="typestate-pipeline-core"
+          url="https://index.crates.io/ty/pe/${crate}"
+          if curl -fsSL -H 'Cache-Control: no-cache' "$url" 2>/dev/null \
+              | grep -F "\"vers\":\"${version}\"" >/dev/null; then
+            echo "${crate} ${version} already on crates.io — skipping publish"
+          else
+            cargo publish -p "${crate}" --locked
+          fi
 
       - name: Wait for typestate-pipeline-core to be indexable
         if: steps.publish-core.outcome == 'success'
@@ -90,9 +99,18 @@ jobs:
       - name: Publish typestate-pipeline-macros
         id: publish-macros
         if: steps.publish-core.outcome == 'success'
-        run: cargo publish -p typestate-pipeline-macros --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          crate="typestate-pipeline-macros"
+          url="https://index.crates.io/ty/pe/${crate}"
+          if curl -fsSL -H 'Cache-Control: no-cache' "$url" 2>/dev/null \
+              | grep -F "\"vers\":\"${version}\"" >/dev/null; then
+            echo "${crate} ${version} already on crates.io — skipping publish"
+          else
+            cargo publish -p "${crate}" --locked
+          fi
 
       - name: Wait for typestate-pipeline-macros to be indexable
         if: steps.publish-macros.outcome == 'success'
@@ -114,9 +132,18 @@ jobs:
       - name: Publish typestate-pipeline
         id: publish-pipeline
         if: steps.publish-macros.outcome == 'success'
-        run: cargo publish -p typestate-pipeline --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          crate="typestate-pipeline"
+          url="https://index.crates.io/ty/pe/${crate}"
+          if curl -fsSL -H 'Cache-Control: no-cache' "$url" 2>/dev/null \
+              | grep -F "\"vers\":\"${version}\"" >/dev/null; then
+            echo "${crate} ${version} already on crates.io — skipping publish"
+          else
+            cargo publish -p "${crate}" --locked
+          fi
 
       - name: Create GitHub Release
         id: create-release
